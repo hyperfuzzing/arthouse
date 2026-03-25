@@ -3,171 +3,122 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>arthouse — v6</title>
+<title>arthouse — v7</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#060606;--panel:#0c0c0c;--soft:#121212;--gold:#d4a843;--amber:#e8891a;--text:#f2efe9;--dim:rgba(242,239,233,.65);--line:rgba(255,255,255,.08);--green:#4ade80;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text);overflow-x:hidden}
-canvas#bg{position:fixed;inset:0;z-index:-1}
-.brand{position:fixed;top:18px;left:28px;font-family:'Playfair Display',serif;font-weight:800;letter-spacing:.08em;color:var(--gold);z-index:50}
-.wrap{max-width:1100px;margin:0 auto;padding:120px 20px}
-.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
-@media(max-width:900px){.hero{grid-template-columns:1fr}}
-.title{font-family:'Playfair Display',serif;font-size:clamp(42px,8vw,92px);line-height:.92}
-.subtitle{margin-top:16px;color:var(--dim);max-width:520px}
-.card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid var(--line);border-radius:22px;padding:22px;backdrop-filter: blur(10px)}
-.input{width:100%;padding:16px 18px;border-radius:14px;background:var(--soft);border:1px solid var(--line);color:#fff}
-.row{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
-.btn{padding:14px 18px;border-radius:14px;border:1px solid var(--line);background:linear-gradient(90deg,rgba(212,168,67,.9),rgba(232,137,26,.9));color:#000;font-weight:600;letter-spacing:.06em;cursor:pointer}
-.btn.alt{background:transparent;color:var(--text)}
-.kicker{font-size:12px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase}
-.result{margin-top:16px;padding:16px;border-radius:14px;background:#0a0a0a;border:1px dashed var(--line);font-size:14px}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text)}
+.brand{position:fixed;top:12px;left:16px;font-family:'Playfair Display',serif;color:var(--gold);z-index:50}
+.wrap{max-width:1000px;margin:auto;padding:80px 16px}
+
+.title{font-family:'Playfair Display';font-size:clamp(32px,7vw,64px);line-height:1}
+.subtitle{margin-top:12px;color:var(--dim)}
+
+.card{background:#0c0c0c;border:1px solid var(--line);border-radius:18px;padding:16px;margin-top:20px}
+.input{width:100%;padding:14px;border-radius:12px;background:#111;border:1px solid var(--line);color:#fff}
+
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.btn{flex:1;padding:12px;border-radius:12px;border:none;background:linear-gradient(90deg,var(--gold),var(--amber));color:#000;font-weight:600}
+.btn.alt{background:#111;color:#fff;border:1px solid var(--line)}
+
+.result{margin-top:14px;padding:14px;background:#0a0a0a;border-radius:12px;border:1px dashed var(--line);font-size:13px;white-space:pre-line}
 .lock{color:var(--gold)}
-.small{font-size:12px;color:var(--dim)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:26px}
-@media(max-width:900px){.grid{grid-template-columns:1fr}}
+
+.mode-switch{display:flex;gap:6px;margin-top:10px}
+.mode{flex:1;padding:8px;border-radius:10px;background:#111;border:1px solid var(--line);font-size:12px;text-align:center;cursor:pointer}
+.mode.active{background:var(--gold);color:#000}
+
 .badge{display:flex;justify-content:center;margin-top:40px}
-.pill{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border-radius:999px;border:1px solid var(--line);color:var(--dim);font-size:12px}
-.hr{height:1px;background:var(--line);margin:24px 0}
-.link{color:var(--gold);text-decoration:none}
+
+@media(max-width:600px){
+  .title{font-size:34px}
+  .btn{flex:100%}
+}
 </style>
 </head>
 <body>
+
 <div class="brand">arthouse</div>
-<canvas id="bg"></canvas>
 
 <div class="wrap">
-  <section class="hero">
-    <div>
-      <div class="kicker">surface interface</div>
-      <h1 class="title">Signal is rare.<br/>Full intelligence lives in <span style="color:var(--gold)">Telegram</span>.</h1>
-      <p class="subtitle">This is a preview layer. Paste anything to scan partial signal, then continue inside the Arthouse brain.</p>
-      <div class="row">
-        <a class="btn" href="https://t.me/arthousexbt_bot" target="_blank">Enter Intelligence Layer</a>
-        <a class="btn alt" href="#scan">Try Preview</a>
-      </div>
-      <div class="row" style="margin-top:10px">
-        <span class="pill">Limited surface access</span>
-        <span class="pill">Collectors use Telegram</span>
-      </div>
-    </div>
 
-    <div class="card" id="scan">
-      <div class="kicker">scan preview</div>
-      <input id="input" class="input" placeholder="Paste NFT / tweet / idea..." />
-      <div class="row">
-        <button class="btn" onclick="analyze()">Scan Preview</button>
-        <button class="btn alt" onclick="toBotWithContext()">Continue in Telegram</button>
-        <button class="btn alt" onclick="shareTelegram()">Broadcast Signal</button>
-      </div>
-      <div id="result" class="result">Awaiting input...</div>
-      <canvas id="card" width="400" height="400" style="margin-top:14px;border:1px solid #222;border-radius:12px"></canvas>
-      <div class="small">Full breakdown locked. Deeper critique, memory, and modes available in Telegram.</div>
-    </div>
-  </section>
+<h1 class="title">Signal is rare.<br>Full intelligence lives in Telegram.</h1>
+<p class="subtitle">Preview only. Continue inside the brain.</p>
 
-  <section class="grid">
-    <div class="card">
-      <div class="kicker">onchain layer</div>
-      <div class="row">
-        <button class="btn alt" onclick="connectWallet()">Connect Wallet</button>
-      </div>
-      <div id="wallet" class="small">Wallet not connected</div>
-      <div class="hr"></div>
-      <div class="small">Scoring ready for onchain storage (coming next).</div>
-    </div>
+<div class="card">
+  <input id="input" class="input" placeholder="Paste anything..." />
 
-    <div class="card">
-      <div class="kicker">live signals</div>
-      <div id="leaderboard" class="result"></div>
-      <div class="small">Local preview leaderboard (last 3).</div>
-    </div>
-  </section>
+  <div class="mode-switch">
+    <div class="mode active" onclick="setMode('default')">Default</div>
+    <div class="mode" onclick="setMode('brutal')">Brutal</div>
+    <div class="mode" onclick="setMode('meme')">Meme</div>
+  </div>
 
-  <section class="badge">
-    <a href="https://orynth.dev/projects/arthousebot" target="_blank" rel="noopener">
-      <img src="https://orynth.dev/api/badge/arthousebot?theme=light&style=default" width="140" />
-    </a>
-  </section>
+  <div class="row">
+    <button class="btn" onclick="analyze()">Scan</button>
+    <button class="btn alt" onclick="toBot()">Telegram</button>
+  </div>
+
+  <div id="result" class="result">Awaiting input...</div>
+</div>
+
+<div class="badge">
+  <a href="https://orynth.dev/projects/arthousebot" target="_blank">
+    <img src="https://orynth.dev/api/badge/arthousebot?theme=light&style=default" width="120" />
+  </a>
+</div>
+
 </div>
 
 <script>
-// background
-const c=document.getElementById("bg");const ctx=c.getContext("2d");let w,h,t=0;function resize(){w=c.width=innerWidth;h=c.height=innerHeight}resize();addEventListener("resize",resize);
-(function draw(){t+=0.01;ctx.fillStyle="#060606";ctx.fillRect(0,0,w,h);for(let i=0;i<3;i++){ctx.beginPath();for(let x=0;x<w;x+=18){const y=h/2+Math.sin(x*0.002+t+i)*70;ctx.lineTo(x,y)}ctx.strokeStyle=`rgba(212,168,67,${0.08+i*0.05})`;ctx.stroke()}requestAnimationFrame(draw)})();
+let mode = 'default';
+let lastInput = '';
 
-let lastResult="";
+function setMode(m){
+  mode = m;
+  document.querySelectorAll('.mode').forEach(el=>el.classList.remove('active'));
+  event.target.classList.add('active');
+}
 
 async function analyze(){
-  const val=document.getElementById("input").value;
-  const result=document.getElementById("result");
-  if(!val){result.innerHTML='Paste something first.';return}
+  const val = document.getElementById('input').value;
+  if(!val) return;
 
-  result.innerHTML='scanning partial signal...';
+  lastInput = val;
+
+  let style = '';
+  if(mode==='brutal') style='harsh and direct';
+  if(mode==='meme') style='funny and chaotic';
+
+  const result = document.getElementById('result');
+  result.innerHTML = `scanning (${mode})...`;
 
   try{
     const res = await fetch('/api/analyze',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({input: val})
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({input: val, mode})
     });
+
     const data = await res.json();
 
-    // lock part of the output for teaser
-    const preview = (data.result||'').split('\n').slice(0,3).join('\n');
-    lastResult = preview;
+    const preview = data.result.split('\n').slice(0,2).join('\n');
 
-    result.innerHTML = `${preview}\n\n<span class="lock">[ locked analysis ]</span>\n→ continue in Telegram`;
+    result.innerHTML = `${preview}\n\n<span class='lock'>[ locked ] → Telegram</span>`;
 
-    updateLeaderboard(preview);
-  }catch(e){
-    result.innerHTML='preview ready (offline)\n\n<span class="lock">[ locked analysis ]</span>';
+  }catch{
+    result.innerHTML = `preview ready\n\n<span class='lock'>[ locked ]</span>`;
   }
 }
 
-function toBotWithContext(){
-  const val=document.getElementById('input').value || lastResult || '';
-  const url = `https://t.me/arthousexbt_bot?start=${encodeURIComponent(val)}`;
+function toBot(){
+  const url = `https://t.me/arthousexbt_bot?start=${encodeURIComponent(lastInput)}`;
   window.open(url,'_blank');
-}
-
-function shareTelegram(){
-  const text = `arthouse\n${lastResult||''}\nhttps://yourwebsite.com`;
-  const url = `https://t.me/share/url?text=${encodeURIComponent(text)}`;
-  window.open(url,'_blank');
-}
-
-function generateImage(){
-  if(!lastResult) return;
-  const canvas=document.getElementById('card');
-  const ctx=canvas.getContext('2d');
-  ctx.fillStyle='#060606';ctx.fillRect(0,0,400,400);
-  ctx.fillStyle='#d4a843';ctx.font='22px Playfair Display';ctx.fillText('arthouse',20,44);
-  ctx.fillStyle='#ffffff';ctx.font='14px monospace';
-  const lines=lastResult.split('\n');
-  lines.forEach((l,i)=>ctx.fillText(l.trim(),20,120+i*26));
-}
-
-function connectWallet(){
-  document.getElementById('wallet').innerHTML='Wallet connected (preview)';
-}
-
-let leaderboardData=[];
-function updateLeaderboard(res){
-  leaderboardData.push(res);
-  const el=document.getElementById('leaderboard');
-  el.innerHTML = leaderboardData.slice(-3).map((r,i)=>`#${i+1} ${r.replace(/\n/g,' | ')}`).join('<br>');
 }
 </script>
 
-<!-- TELEGRAM BOT LOGIC IDEA -->
-<!--
-- Save user history
-- Different modes: brutal / collector / meme
-- Use same OpenAI endpoint
-- Return deeper critique + suggestions
--->
 </body>
 </html>
