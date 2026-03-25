@@ -3,139 +3,164 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>arthouse — v5</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+<title>arthouse — v6</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --gold:#d4a843;
-  --amber:#e8891a;
-  --white:#f0ece2;
-  --dim:rgba(240,236,226,0.7);
-  --green:#4ade80;
+  --bg:#060606;--panel:#0c0c0c;--soft:#121212;--gold:#d4a843;--amber:#e8891a;--text:#f2efe9;--dim:rgba(242,239,233,.65);--line:rgba(255,255,255,.08);--green:#4ade80;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'IBM Plex Mono', monospace;background:#050505;color:var(--white);overflow-x:hidden;}
-canvas{position:fixed; inset:0; z-index:-1;}
-.section{min-height:100vh; padding:120px 10vw; display:flex; flex-direction:column; justify-content:center;}
-h1,h2{font-family:'Playfair Display', serif;font-size:clamp(48px,9vw,110px);line-height:.9;}
-.brand{position:fixed;top:20px;left:30px;font-family:'Playfair Display',serif;font-size:20px;color:var(--gold);z-index:50;letter-spacing:.1em}
-.gold{color:var(--gold)}
-.amber{color:var(--amber)}
-p{max-width:640px;margin-top:24px;color:var(--dim);line-height:1.8;}
-.reveal{opacity:0; transform:translateY(40px); transition:1.2s cubic-bezier(.16,1,.3,1);}
-.reveal.active{opacity:1; transform:translateY(0);}
-.cta{margin-top:20px;padding:18px 32px;background:linear-gradient(90deg,var(--gold),var(--amber));color:#000;text-decoration:none;font-weight:bold;letter-spacing:.1em;display:inline-block;border:none;cursor:pointer}
-.input-box{margin-top:30px;padding:16px;background:#0f0f0d;border:1px solid rgba(255,255,255,.1);width:100%;max-width:500px;color:#fff}
-.result{margin-top:20px;font-size:14px;color:var(--green)}
+body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text);overflow-x:hidden}
+canvas#bg{position:fixed;inset:0;z-index:-1}
+.brand{position:fixed;top:18px;left:28px;font-family:'Playfair Display',serif;font-weight:800;letter-spacing:.08em;color:var(--gold);z-index:50}
+.wrap{max-width:1100px;margin:0 auto;padding:120px 20px}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+@media(max-width:900px){.hero{grid-template-columns:1fr}}
+.title{font-family:'Playfair Display',serif;font-size:clamp(42px,8vw,92px);line-height:.92}
+.subtitle{margin-top:16px;color:var(--dim);max-width:520px}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid var(--line);border-radius:22px;padding:22px;backdrop-filter: blur(10px)}
+.input{width:100%;padding:16px 18px;border-radius:14px;background:var(--soft);border:1px solid var(--line);color:#fff}
+.row{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+.btn{padding:14px 18px;border-radius:14px;border:1px solid var(--line);background:linear-gradient(90deg,rgba(212,168,67,.9),rgba(232,137,26,.9));color:#000;font-weight:600;letter-spacing:.06em;cursor:pointer}
+.btn.alt{background:transparent;color:var(--text)}
+.kicker{font-size:12px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase}
+.result{margin-top:16px;padding:16px;border-radius:14px;background:#0a0a0a;border:1px dashed var(--line);font-size:14px}
+.lock{color:var(--gold)}
 .small{font-size:12px;color:var(--dim)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:26px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.badge{display:flex;justify-content:center;margin-top:40px}
+.pill{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border-radius:999px;border:1px solid var(--line);color:var(--dim);font-size:12px}
+.hr{height:1px;background:var(--line);margin:24px 0}
+.link{color:var(--gold);text-decoration:none}
 </style>
 </head>
 <body>
-
 <div class="brand">arthouse</div>
-
 <canvas id="bg"></canvas>
 
-<section class="section">
-  <h1 class="reveal">Signal or <span class="gold">noise</span>.<br>We decide.</h1>
-  <p class="reveal">AI-powered cultural filter for artists & collectors.</p>
+<div class="wrap">
+  <section class="hero">
+    <div>
+      <div class="kicker">surface interface</div>
+      <h1 class="title">Signal is rare.<br/>Full intelligence lives in <span style="color:var(--gold)">Telegram</span>.</h1>
+      <p class="subtitle">This is a preview layer. Paste anything to scan partial signal, then continue inside the Arthouse brain.</p>
+      <div class="row">
+        <a class="btn" href="https://t.me/arthousexbt_bot" target="_blank">Enter Intelligence Layer</a>
+        <a class="btn alt" href="#scan">Try Preview</a>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <span class="pill">Limited surface access</span>
+        <span class="pill">Collectors use Telegram</span>
+      </div>
+    </div>
 
-  <input id="input" class="input-box reveal" placeholder="Paste NFT / tweet / idea..." />
-  <button class="cta reveal" onclick="analyze()">Analyze</button>
-  <button class="cta reveal" onclick="generateImage()">Generate Share Card</button>
+    <div class="card" id="scan">
+      <div class="kicker">scan preview</div>
+      <input id="input" class="input" placeholder="Paste NFT / tweet / idea..." />
+      <div class="row">
+        <button class="btn" onclick="analyze()">Scan Preview</button>
+        <button class="btn alt" onclick="toBotWithContext()">Continue in Telegram</button>
+        <button class="btn alt" onclick="shareTelegram()">Broadcast Signal</button>
+      </div>
+      <div id="result" class="result">Awaiting input...</div>
+      <canvas id="card" width="400" height="400" style="margin-top:14px;border:1px solid #222;border-radius:12px"></canvas>
+      <div class="small">Full breakdown locked. Deeper critique, memory, and modes available in Telegram.</div>
+    </div>
+  </section>
 
-  <div id="result" class="result"></div>
-  <canvas id="card" width="400" height="400" style="margin-top:20px;border:1px solid #222"></canvas>
+  <section class="grid">
+    <div class="card">
+      <div class="kicker">onchain layer</div>
+      <div class="row">
+        <button class="btn alt" onclick="connectWallet()">Connect Wallet</button>
+      </div>
+      <div id="wallet" class="small">Wallet not connected</div>
+      <div class="hr"></div>
+      <div class="small">Scoring ready for onchain storage (coming next).</div>
+    </div>
 
-  <a href="https://t.me/arthousexbt_bot" class="cta reveal">Continue in Telegram</a>
-  <p class="small reveal">Deeper critique. Memory. Collector intelligence.</p>
-</section>
+    <div class="card">
+      <div class="kicker">live signals</div>
+      <div id="leaderboard" class="result"></div>
+      <div class="small">Local preview leaderboard (last 3).</div>
+    </div>
+  </section>
 
-<section class="section">
-  <h2 class="reveal">Onchain Layer</h2>
-  <button class="cta reveal" onclick="connectWallet()">Connect Wallet</button>
-  <div id="wallet" class="small"></div>
-</section>
-
-<section class="section">
-  <h2 class="reveal">Leaderboard</h2>
-  <div class="result reveal" id="leaderboard"></div>
-</section>
-
-<section class="section">
-  <a href="https://orynth.dev/projects/arthousebot" target="_blank">
-    <img src="https://orynth.dev/api/badge/arthousebot?theme=light&style=default" width="140" />
-  </a>
-</section>
+  <section class="badge">
+    <a href="https://orynth.dev/projects/arthousebot" target="_blank" rel="noopener">
+      <img src="https://orynth.dev/api/badge/arthousebot?theme=light&style=default" width="140" />
+    </a>
+  </section>
+</div>
 
 <script>
-const c=document.getElementById("bg");
-const ctx=c.getContext("2d");
-let w,h,t=0;
-function resize(){w=c.width=window.innerWidth;h=c.height=window.innerHeight;}resize();
-window.addEventListener("resize",resize);
-function draw(){t+=0.01;ctx.fillStyle="#050505";ctx.fillRect(0,0,w,h);
-for(let i=0;i<3;i++){ctx.beginPath();for(let x=0;x<w;x+=20){const y=h/2+Math.sin(x*0.002+t+i)*80;ctx.lineTo(x,y);}ctx.strokeStyle=`rgba(212,168,67,${0.1+i*0.05})`;ctx.stroke();}
-requestAnimationFrame(draw);}draw();
-
-const reveals=document.querySelectorAll(".reveal");
-function reveal(){const trigger=window.innerHeight*0.85;reveals.forEach(el=>{if(el.getBoundingClientRect().top<trigger){el.classList.add("active");}});}window.addEventListener("scroll",reveal);reveal();
+// background
+const c=document.getElementById("bg");const ctx=c.getContext("2d");let w,h,t=0;function resize(){w=c.width=innerWidth;h=c.height=innerHeight}resize();addEventListener("resize",resize);
+(function draw(){t+=0.01;ctx.fillStyle="#060606";ctx.fillRect(0,0,w,h);for(let i=0;i<3;i++){ctx.beginPath();for(let x=0;x<w;x+=18){const y=h/2+Math.sin(x*0.002+t+i)*70;ctx.lineTo(x,y)}ctx.strokeStyle=`rgba(212,168,67,${0.08+i*0.05})`;ctx.stroke()}requestAnimationFrame(draw)})();
 
 let lastResult="";
 
 async function analyze(){
   const val=document.getElementById("input").value;
   const result=document.getElementById("result");
-  result.innerHTML="analyzing...";
+  if(!val){result.innerHTML='Paste something first.';return}
 
-  const res = await fetch("/api/analyze",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({input: val})
-  });
+  result.innerHTML='scanning partial signal...';
 
-  const data = await res.json();
-  lastResult = data.result;
-  result.innerHTML = lastResult;
+  try{
+    const res = await fetch('/api/analyze',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({input: val})
+    });
+    const data = await res.json();
 
-  updateLeaderboard(lastResult);
+    // lock part of the output for teaser
+    const preview = (data.result||'').split('\n').slice(0,3).join('\n');
+    lastResult = preview;
+
+    result.innerHTML = `${preview}\n\n<span class="lock">[ locked analysis ]</span>\n→ continue in Telegram`;
+
+    updateLeaderboard(preview);
+  }catch(e){
+    result.innerHTML='preview ready (offline)\n\n<span class="lock">[ locked analysis ]</span>';
+  }
+}
+
+function toBotWithContext(){
+  const val=document.getElementById('input').value || lastResult || '';
+  const url = `https://t.me/arthousexbt_bot?start=${encodeURIComponent(val)}`;
+  window.open(url,'_blank');
+}
+
+function shareTelegram(){
+  const text = `arthouse\n${lastResult||''}\nhttps://yourwebsite.com`;
+  const url = `https://t.me/share/url?text=${encodeURIComponent(text)}`;
+  window.open(url,'_blank');
 }
 
 function generateImage(){
   if(!lastResult) return;
-  const canvas=document.getElementById("card");
-  const ctx=canvas.getContext("2d");
-
-  ctx.fillStyle="#050505";
-  ctx.fillRect(0,0,400,400);
-
-  ctx.fillStyle="#d4a843";
-  ctx.font="20px Playfair Display";
-  ctx.fillText("arthouse",20,40);
-
-  ctx.fillStyle="#ffffff";
-  ctx.font="14px monospace";
-
-  const lines = lastResult.split("|");
-  lines.forEach((l,i)=>{
-    ctx.fillText(l.trim(),20,120 + i*30);
-  });
+  const canvas=document.getElementById('card');
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#060606';ctx.fillRect(0,0,400,400);
+  ctx.fillStyle='#d4a843';ctx.font='22px Playfair Display';ctx.fillText('arthouse',20,44);
+  ctx.fillStyle='#ffffff';ctx.font='14px monospace';
+  const lines=lastResult.split('\n');
+  lines.forEach((l,i)=>ctx.fillText(l.trim(),20,120+i*26));
 }
 
 function connectWallet(){
-  document.getElementById("wallet").innerHTML="Wallet connected (ready for onchain scoring)";
+  document.getElementById('wallet').innerHTML='Wallet connected (preview)';
 }
 
 let leaderboardData=[];
 function updateLeaderboard(res){
   leaderboardData.push(res);
-  const el=document.getElementById("leaderboard");
-  el.innerHTML = leaderboardData.slice(-3).map((r,i)=>`#${i+1} ${r}`).join("<br>");
+  const el=document.getElementById('leaderboard');
+  el.innerHTML = leaderboardData.slice(-3).map((r,i)=>`#${i+1} ${r.replace(/\n/g,' | ')}`).join('<br>');
 }
 </script>
-
-</body>
-</html>
 
 <!-- TELEGRAM BOT LOGIC IDEA -->
 <!--
@@ -144,3 +169,5 @@ function updateLeaderboard(res){
 - Use same OpenAI endpoint
 - Return deeper critique + suggestions
 -->
+</body>
+</html>
