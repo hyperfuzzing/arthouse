@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>arthouse</title>
+
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=Playfair+Display:ital,wght@1,900&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  background:#080807;
+  color:#f0ece2;
+  font-family:'IBM Plex Mono', monospace;
+}
+
+/* HERO */
+#hero{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+  padding:40px;
+}
+
+.hero-text{
+  color:#d4a843;
+  font-size:12px;
+  margin-bottom:20px;
+  letter-spacing:.1em;
+}
+
+.hero-title{
+  font-family:'Playfair Display', serif;
+  font-style:italic;
+  font-weight:900;
+  font-size:clamp(60px,20vw,140px);
+}
+
+.gold{color:#d4a843}
+
+/* cursor */
+.cursor{
+  display:inline-block;
+  width:8px;
+  height:14px;
+  background:#4ade80;
+  margin-left:4px;
+  animation:blink 1s infinite;
+}
+
+@keyframes blink{
+  0%,100%{opacity:1}
+  50%{opacity:0}
+}
+
+/* CTA */
+.cta{
+  margin-top:30px;
+}
+
+.btn{
+  display:inline-block;
+  padding:14px 20px;
+  border:1px solid rgba(255,255,255,0.1);
+  color:#f0ece2;
+  text-decoration:none;
+  font-size:12px;
+  letter-spacing:.1em;
+}
+
+.btn:hover{
+  border-color:#d4a843;
+  color:#d4a843;
+}
+</style>
+</head>
+
+<body>
+
+<section id="hero">
+  <div class="hero-text">
+    <span id="typed"></span><span class="cursor"></span>
+  </div>
+
+  <div class="hero-title">
+    art<span class="gold">house</span>
+  </div>
+
+  <div class="cta">
+    <a href="https://t.me/arthousexbt_bot" target="_blank" class="btn">
+      open the bot →
+    </a>
+  </div>
+</section>
+
+<script>
+
+// ===== MEMORY (SAFE, TIDAK BLOCK) =====
+const lastVisit = localStorage.getItem("arthouse_last");
+localStorage.setItem("arthouse_last", Date.now());
+
+// ===== TEXT LOGIC =====
+let phrase = "arthouse_init.exe — gallery & art creators";
+
+if(lastVisit){
+  const diff = Date.now() - lastVisit;
+
+  if(diff < 60000){
+    phrase = "you returned too quickly...";
+  }else if(diff < 3600000){
+    phrase = "you came back...";
+  }else{
+    phrase = "it's been a while...";
+  }
+}
+
+// ===== TYPEWRITER (INSTANT START) =====
+const el = document.getElementById("typed");
+
+let i = 0;
+function type(){
+  el.textContent = phrase.slice(0,i);
+  if(i++ <= phrase.length){
+    setTimeout(type, 30);
+  }
+}
+
+type(); // LANGSUNG JALAN (tidak pakai delay)
+
+// ===== OPTIONAL WHISPER (TIDAK GANGGU) =====
+setTimeout(()=>{
+  if(Math.random() > 0.7){
+    const w = document.createElement("div");
+    w.style.position="fixed";
+    w.style.bottom="20px";
+    w.style.left="20px";
+    w.style.fontSize="10px";
+    w.style.opacity="0.4";
+    w.innerText="i'm still watching";
+    document.body.appendChild(w);
+  }
+},4000);
+
+</script>
+
+</body>
+</html>
