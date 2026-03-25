@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>arthouse — museum full</title>
+<title>arthouse — v3</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -14,295 +14,80 @@
   --green:#4ade80;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{
-  font-family:'IBM Plex Mono', monospace;
-  background:#050505;
-  color:var(--white);
-  overflow-x:hidden;
-}
-/* CANVAS BG */
+body{font-family:'IBM Plex Mono', monospace;background:#050505;color:var(--white);overflow-x:hidden;}
 canvas{position:fixed; inset:0; z-index:-1;}
-/* GRAIN */
-.grain{
-  position:fixed; inset:0;
-  opacity:.05;
-  pointer-events:none;
-  background:url("https://grainy-gradients.vercel.app/noise.svg");
-  z-index:10;
-}
-/* CURSOR */
-.cursor{
-  position:fixed;
-  width:400px;height:400px;
-  border-radius:50%;
-  pointer-events:none;
-  background:radial-gradient(circle, rgba(212,168,67,.12), transparent 70%);
-  transform:translate(-50%,-50%);
-  z-index:9;
-}
-/* SECTION */
-.section{
-  min-height:100vh;
-  padding:120px 10vw;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
-/* TYPO */
-h1,h2{
-  font-family:'Playfair Display', serif;
-  font-size:clamp(48px,9vw,110px);
-  line-height:.9;
-}
+.section{min-height:100vh; padding:120px 10vw; display:flex; flex-direction:column; justify-content:center;}
+h1,h2{font-family:'Playfair Display', serif;font-size:clamp(48px,9vw,110px);line-height:.9;}
 .gold{color:var(--gold)}
 .amber{color:var(--amber)}
-p{
-  max-width:640px;
-  margin-top:24px;
-  color:var(--dim);
-  line-height:1.8;
-}
-/* MANIFESTO */
-.manifesto{
-  font-size:clamp(20px,3vw,32px);
-  line-height:1.6;
-  font-family:'Playfair Display', serif;
-}
-/* TERMINAL */
-.terminal{
-  margin-top:40px;
-  background:#0f0f0d;
-  border:1px solid rgba(255,255,255,.08);
-  padding:20px;
-  font-size:13px;
-}
-.term-line{margin:6px 0}
-.bot{color:var(--gold)}
-.user{color:var(--green)}
-.cursor-blink{
-  display:inline-block;
-  width:6px;
-  height:12px;
-  background:var(--green);
-  margin-left:4px;
-  animation:blink 1s infinite;
-}
-@keyframes blink{
-  0%,100%{opacity:1}
-  50%{opacity:0}
-}
-/* REVEAL */
-.reveal{
-  opacity:0;
-  transform:translateY(40px);
-  transition:1s cubic-bezier(.16,1,.3,1);
-}
-.reveal.active{
-  opacity:1;
-  transform:translateY(0);
-}
-/* CTA */
-.cta{
-  margin-top:40px;
-  padding:18px 32px;
-  background:linear-gradient(90deg,var(--gold),var(--amber));
-  color:#000;
-  text-decoration:none;
-  font-weight:bold;
-  letter-spacing:.1em;
-  display:inline-block;
-}
-/* PROGRESS */
-.progress{
-  position:fixed;
-  top:0;left:0;
-  height:3px;
-  width:0%;
-  background:linear-gradient(90deg,var(--gold),var(--amber));
-  z-index:20;
-}
+p{max-width:640px;margin-top:24px;color:var(--dim);line-height:1.8;}
+.reveal{opacity:0; transform:translateY(40px); transition:1.2s cubic-bezier(.16,1,.3,1);}
+.reveal.active{opacity:1; transform:translateY(0);}
+.cta{margin-top:30px;padding:18px 32px;background:linear-gradient(90deg,var(--gold),var(--amber));color:#000;text-decoration:none;font-weight:bold;letter-spacing:.1em;display:inline-block;}
+.input-box{margin-top:30px;padding:16px;background:#0f0f0d;border:1px solid rgba(255,255,255,.1);width:100%;max-width:500px;color:#fff}
+.result{margin-top:20px;font-size:14px;color:var(--green)}
+.badge{margin-top:20px}
 </style>
 </head>
 <body>
-
 <canvas id="bg"></canvas>
-<div class="grain"></div>
-<div class="cursor" id="cursor"></div>
-<div class="progress" id="progress"></div>
 
-<!-- HERO -->
 <section class="section">
-  <h1 class="reveal">art<span class="gold">house</span><br><span class="amber">bot.</span></h1>
-  <p class="reveal">A living interface for art critique, curation, and discovery.</p>
+  <h1 class="reveal">This is not a <span class="gold">tool</span>.<br>This is <span class="amber">culture.</span></h1>
+  <p class="reveal">Paste anything. We decide if it matters.</p>
+
+  <div class="badge reveal">
+    <a href="https://orynth.dev/projects/arthousebot" target="_blank">
+      <img src="https://orynth.dev/api/badge/arthousebot?theme=light&style=default" width="160" />
+    </a>
+  </div>
+
+  <!-- LIVE CRITIQUE -->
+  <input id="input" class="input-box reveal" placeholder="Paste NFT link / tweet / idea..." />
+  <button class="cta reveal" onclick="analyze()">Analyze</button>
+
+  <div id="result" class="result"></div>
 </section>
 
-<!-- MANIFESTO -->
 <section class="section">
-  <h2 class="reveal">Manifesto</h2>
-  <p class="manifesto reveal">
-    Art is not content.<br>
-    Art is signal.<br><br>
-    In a world of infinite noise,<br>
-    curation becomes creation.
-  </p>
-</section>
-
-<!-- STEP 1 -->
-<section class="section">
-  <h2 class="reveal">Open the <span class="gold">Bot</span></h2>
-  <p class="reveal">Search @arthousexbt_bot on Telegram.</p>
-</section>
-
-<!-- STEP 2 -->
-<section class="section">
-  <h2 class="reveal">Share Your <span class="gold">Work</span></h2>
-  <p class="reveal">Upload image, link, or describe your idea.</p>
-</section>
-
-<!-- STEP 3 TERMINAL -->
-<section class="section">
-  <h2 class="reveal">Receive <span class="gold">Feedback</span></h2>
-  <div class="terminal reveal">
-    <div id="terminal-output"></div>
+  <h2 class="reveal">Leaderboard</h2>
+  <p class="reveal">Top signal creators this week.</p>
+  <div class="result reveal">
+    #1 neoartist.eth — score 97<br>
+    #2 void.png — score 94<br>
+    #3 anon.jpeg — score 91
   </div>
 </section>
 
-<!-- STEP 4 -->
 <section class="section">
-  <h2 class="reveal">Iterate & <span class="gold">Evolve</span></h2>
-  <p class="reveal">Refine your work through dialogue.</p>
+  <h2 class="reveal">Enter</h2>
+  <a href="https://t.me/arthousexbt_bot" class="cta reveal">Enter the System</a>
+  <p class="reveal">Built by <a href="https://x.com/arthousebase" target="_blank" style="color:var(--gold)">@arthousebase</a></p>
 </section>
-
-<!-- STEP 5 -->
-<section class="section">
-  <h2 class="reveal">Join the <span class="gold">Network</span></h2>
-  <p class="reveal">Collectors. Curators. Context.</p>
-</section>
-
-<!-- CTA -->
-<section class="section">
-  <h2 class="reveal">Start <span class="gold">Now</span></h2>
-  <a href="https://t.me/arthousexbt_bot" class="cta reveal">Launch Bot</a>
-</section>
-
-<!-- AMBIENCE AUDIO -->
-<audio id="ambience" loop>
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3" type="audio/mpeg">
-</audio>
 
 <script>
-/* CANVAS BG */
-const c = document.getElementById("bg");
-const ctx = c.getContext("2d");
+const c=document.getElementById("bg");
+const ctx=c.getContext("2d");
 let w,h,t=0;
-function resize(){ w=c.width=window.innerWidth; h=c.height=window.innerHeight; }
-resize();
+function resize(){w=c.width=window.innerWidth;h=c.height=window.innerHeight;}resize();
 window.addEventListener("resize",resize);
-let mouse={x:0,y:0};
-document.addEventListener("mousemove",e=>{ mouse.x=e.clientX; mouse.y=e.clientY; });
-function draw(){
-  t+=0.01;
-  ctx.fillStyle="#050505"; ctx.fillRect(0,0,w,h);
-  for(let i=0;i<3;i++){
-    ctx.beginPath();
-    for(let x=0;x<w;x+=20){
-      const y=h/2 + Math.sin(x*0.002+t+i)*80 + Math.cos(mouse.x*0.002+t)*40;
-      ctx.lineTo(x,y);
-    }
-    ctx.strokeStyle=`rgba(212,168,67,${0.08+i*0.05})`;
-    ctx.stroke();
-  }
-  requestAnimationFrame(draw);
-}
-draw();
-/* CURSOR */
-const cursor=document.getElementById("cursor");
-document.addEventListener("mousemove",e=>{
-  cursor.style.left=e.clientX+"px";
-  cursor.style.top=e.clientY+"px";
-});
-/* REVEAL */
+function draw(){t+=0.01;ctx.fillStyle="#050505";ctx.fillRect(0,0,w,h);
+for(let i=0;i<3;i++){ctx.beginPath();for(let x=0;x<w;x+=20){const y=h/2+Math.sin(x*0.002+t+i)*80;ctx.lineTo(x,y);}ctx.strokeStyle=`rgba(212,168,67,${0.1+i*0.05})`;ctx.stroke();}
+requestAnimationFrame(draw);}draw();
+
 const reveals=document.querySelectorAll(".reveal");
-function reveal(){
-  const trigger=window.innerHeight*0.85;
-  reveals.forEach(el=>{
-    if(el.getBoundingClientRect().top<trigger){
-      el.classList.add("active");
-    }
-  });
-}
-window.addEventListener("scroll",reveal);
-reveal();
-/* PROGRESS */
-window.addEventListener("scroll",()=>{
-  const h=document.documentElement;
-  const scrolled=h.scrollTop/(h.scrollHeight-h.clientHeight);
-  document.getElementById("progress").style.width=scrolled*100+"%";
-});
+function reveal(){const trigger=window.innerHeight*0.85;reveals.forEach(el=>{if(el.getBoundingClientRect().top<trigger){el.classList.add("active");}});}window.addEventListener("scroll",reveal);reveal();
 
-/* TERMINAL HIDUP */
-const lines = [
-  {text:"you › uploading artwork.png", cls:"user"},
-  {text:"bot › analysing composition...", cls:"bot"},
-  {text:"bot › scanning visual hierarchy...", cls:"bot"},
-  {text:"bot › detecting conceptual layers...", cls:"bot"},
-  {text:"bot › collector alignment: strong", cls:"bot"},
-  {text:"bot › verdict: culturally resonant", cls:"bot"}
-];
-const output = document.getElementById("terminal-output");
-let lineIndex = 0;
-function typeLine(text, cls, callback){
-  const div = document.createElement("div");
-  div.className = "term-line " + cls;
-  output.appendChild(div);
-  let i = 0;
-  function typing(){
-    if(i < text.length){
-      div.innerHTML = text.substring(0,i) + '<span class="cursor-blink"></span>';
-      i++;
-      setTimeout(typing, 25 + Math.random()*30);
-    } else {
-      div.innerHTML = text;
-      callback && setTimeout(callback, 400);
-    }
-  }
-  typing();
+function analyze(){
+  const val=document.getElementById("input").value;
+  const result=document.getElementById("result");
+  if(!val) return;
+  result.innerHTML="analyzing...";
+  setTimeout(()=>{
+    const score=Math.floor(Math.random()*20)+80;
+    result.innerHTML=`aesthetic score: ${score}/100<br>rarity: ${(Math.random()).toFixed(2)}<br>verdict: culturally relevant`;
+  },1000);
 }
-function runTerminal(){
-  if(lineIndex < lines.length){
-    const l = lines[lineIndex];
-    typeLine(l.text, l.cls, ()=>{
-      lineIndex++;
-      runTerminal();
-    });
-  } else {
-    setTimeout(()=>{
-      output.innerHTML = "";
-      lineIndex = 0;
-      runTerminal();
-    }, 2000);
-  }
-}
-const termSection = document.querySelector(".terminal");
-let started = false;
-function checkTerminal(){
-  const rect = termSection.getBoundingClientRect();
-  if(!started && rect.top < window.innerHeight * 0.8){
-    started = true;
-    runTerminal();
-  }
-}
-window.addEventListener("scroll", checkTerminal);
-checkTerminal();
-
-/* AUDIO AMBIENCE */
-const audio = document.getElementById("ambience");
-function startAudio(){
-  audio.volume = 0.3;
-  audio.play().catch(()=>{});
-  window.removeEventListener("click", startAudio);
-}
-window.addEventListener("click", startAudio);
 </script>
 
 </body>
