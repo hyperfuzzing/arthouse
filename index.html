@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>arthouse — v3</title>
+<title>arthouse — v4</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -23,35 +23,38 @@ h1,h2{font-family:'Playfair Display', serif;font-size:clamp(48px,9vw,110px);line
 p{max-width:640px;margin-top:24px;color:var(--dim);line-height:1.8;}
 .reveal{opacity:0; transform:translateY(40px); transition:1.2s cubic-bezier(.16,1,.3,1);}
 .reveal.active{opacity:1; transform:translateY(0);}
-.cta{margin-top:30px;padding:18px 32px;background:linear-gradient(90deg,var(--gold),var(--amber));color:#000;text-decoration:none;font-weight:bold;letter-spacing:.1em;display:inline-block;}
+.cta{margin-top:20px;padding:18px 32px;background:linear-gradient(90deg,var(--gold),var(--amber));color:#000;text-decoration:none;font-weight:bold;letter-spacing:.1em;display:inline-block;}
 .input-box{margin-top:30px;padding:16px;background:#0f0f0d;border:1px solid rgba(255,255,255,.1);width:100%;max-width:500px;color:#fff}
 .result{margin-top:20px;font-size:14px;color:var(--green)}
-.badge{margin-top:20px}
+.small{font-size:12px;color:var(--dim)}
 </style>
 </head>
 <body>
 <canvas id="bg"></canvas>
 
 <section class="section">
-  <h1 class="reveal">This is not a <span class="gold">tool</span>.<br>This is <span class="amber">culture.</span></h1>
+  <h1 class="reveal">This is not a <span class="gold">tool</span>.<br>This is <span class="amber">taste.</span></h1>
   <p class="reveal">Paste anything. We decide if it matters.</p>
 
-  <div class="badge reveal">
-    <a href="https://orynth.dev/projects/arthousebot" target="_blank">
-      <img src="https://orynth.dev/api/badge/arthousebot?theme=light&style=default" width="160" />
-    </a>
-  </div>
-
   <!-- LIVE CRITIQUE -->
-  <input id="input" class="input-box reveal" placeholder="Paste NFT link / tweet / idea..." />
+  <input id="input" class="input-box reveal" placeholder="Paste NFT / tweet / idea..." />
   <button class="cta reveal" onclick="analyze()">Analyze</button>
+  <button class="cta reveal" onclick="share()">Share Result</button>
 
   <div id="result" class="result"></div>
+  <div id="sharebox" class="small"></div>
+</section>
+
+<section class="section">
+  <h2 class="reveal">Onchain Layer</h2>
+  <p class="reveal">Your taste becomes a permanent signal.</p>
+  <button class="cta reveal" onclick="connectWallet()">Connect Wallet</button>
+  <div id="wallet" class="small"></div>
 </section>
 
 <section class="section">
   <h2 class="reveal">Leaderboard</h2>
-  <p class="reveal">Top signal creators this week.</p>
+  <p class="reveal">Top signal creators.</p>
   <div class="result reveal">
     #1 neoartist.eth — score 97<br>
     #2 void.png — score 94<br>
@@ -61,8 +64,18 @@ p{max-width:640px;margin-top:24px;color:var(--dim);line-height:1.8;}
 
 <section class="section">
   <h2 class="reveal">Enter</h2>
-  <a href="https://t.me/arthousexbt_bot" class="cta reveal">Enter the System</a>
-  <p class="reveal">Built by <a href="https://x.com/arthousebase" target="_blank" style="color:var(--gold)">@arthousebase</a></p>
+  <a href="https://t.me/arthousexbt_bot" class="cta reveal">Open Telegram Bot</a>
+  <p class="reveal">AI critique deeper inside Telegram.</p>
+  <p class="reveal small">Built by <a href="https://x.com/arthousebase" target="_blank" style="color:var(--gold)">@arthousebase</a></p>
+</section>
+
+<!-- BADGE DIPINDAH KE BAWAH -->
+<section class="section">
+  <div class="reveal">
+    <a href="https://orynth.dev/projects/arthousebot" target="_blank">
+      <img src="https://orynth.dev/api/badge/arthousebot?theme=light&style=default" width="140" />
+    </a>
+  </div>
 </section>
 
 <script>
@@ -78,6 +91,7 @@ requestAnimationFrame(draw);}draw();
 const reveals=document.querySelectorAll(".reveal");
 function reveal(){const trigger=window.innerHeight*0.85;reveals.forEach(el=>{if(el.getBoundingClientRect().top<trigger){el.classList.add("active");}});}window.addEventListener("scroll",reveal);reveal();
 
+let lastResult="";
 function analyze(){
   const val=document.getElementById("input").value;
   const result=document.getElementById("result");
@@ -85,8 +99,21 @@ function analyze(){
   result.innerHTML="analyzing...";
   setTimeout(()=>{
     const score=Math.floor(Math.random()*20)+80;
-    result.innerHTML=`aesthetic score: ${score}/100<br>rarity: ${(Math.random()).toFixed(2)}<br>verdict: culturally relevant`;
+    const rarity=(Math.random()).toFixed(2);
+    lastResult=`aesthetic score: ${score}/100 | rarity: ${rarity} | verdict: culturally relevant`;
+    result.innerHTML=lastResult;
   },1000);
+}
+
+function share(){
+  if(!lastResult) return;
+  const text=`Arthouse AI\n${lastResult}`;
+  navigator.clipboard.writeText(text);
+  document.getElementById("sharebox").innerHTML="Copied. Share it on X.";
+}
+
+function connectWallet(){
+  document.getElementById("wallet").innerHTML="Wallet connected (mock). Onchain scoring soon.";
 }
 </script>
 
