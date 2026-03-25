@@ -3,120 +3,98 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>arthouse — v7</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
+<title>arthouse — museum v1</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#060606;--panel:#0c0c0c;--soft:#121212;--gold:#d4a843;--amber:#e8891a;--text:#f2efe9;--dim:rgba(242,239,233,.65);--line:rgba(255,255,255,.08);--green:#4ade80;
+  --bg:#050505;--text:#f1efe9;--dim:rgba(241,239,233,.6);--gold:#d4a843;--line:rgba(255,255,255,.08);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text)}
-.brand{position:fixed;top:12px;left:16px;font-family:'Playfair Display',serif;color:var(--gold);z-index:50}
-.wrap{max-width:1000px;margin:auto;padding:80px 16px}
-
-.title{font-family:'Playfair Display';font-size:clamp(32px,7vw,64px);line-height:1}
-.subtitle{margin-top:12px;color:var(--dim)}
-
-.card{background:#0c0c0c;border:1px solid var(--line);border-radius:18px;padding:16px;margin-top:20px}
-.input{width:100%;padding:14px;border-radius:12px;background:#111;border:1px solid var(--line);color:#fff}
-
-.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-.btn{flex:1;padding:12px;border-radius:12px;border:none;background:linear-gradient(90deg,var(--gold),var(--amber));color:#000;font-weight:600}
-.btn.alt{background:#111;color:#fff;border:1px solid var(--line)}
-
-.result{margin-top:14px;padding:14px;background:#0a0a0a;border-radius:12px;border:1px dashed var(--line);font-size:13px;white-space:pre-line}
-.lock{color:var(--gold)}
-
-.mode-switch{display:flex;gap:6px;margin-top:10px}
-.mode{flex:1;padding:8px;border-radius:10px;background:#111;border:1px solid var(--line);font-size:12px;text-align:center;cursor:pointer}
-.mode.active{background:var(--gold);color:#000}
-
-.badge{display:flex;justify-content:center;margin-top:40px}
-
-@media(max-width:600px){
-  .title{font-size:34px}
-  .btn{flex:100%}
-}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+.section{min-height:100vh;padding:80px 20px;display:flex;flex-direction:column;justify-content:center;max-width:900px;margin:auto}
+.title{font-family:'Playfair Display';font-size:clamp(32px,6vw,72px);line-height:1}
+.subtitle{margin-top:16px;color:var(--dim)}
+.card{margin-top:30px;padding:20px;border:1px solid var(--line);border-radius:16px;background:#0a0a0a}
+.btn{margin-top:20px;padding:14px 20px;border:none;border-radius:12px;background:var(--gold);color:#000;font-weight:600;width:100%}
+.small{font-size:13px;color:var(--dim);margin-top:10px}
+.audio{margin-top:20px;width:100%}
+.brand{position:fixed;top:10px;left:16px;font-family:'Playfair Display';color:var(--gold)}
+.divider{height:1px;background:var(--line);margin:40px 0}
 </style>
 </head>
 <body>
 
 <div class="brand">arthouse</div>
 
-<div class="wrap">
+<!-- HERO / ENTRY -->
+<section class="section">
+  <h1 class="title">This is not a website.<br>This is an entrance.</h1>
+  <p class="subtitle">The intelligence lives inside Telegram. What you see here is only a curated surface.</p>
 
-<h1 class="title">Signal is rare.<br>Full intelligence lives in Telegram.</h1>
-<p class="subtitle">Preview only. Continue inside the brain.</p>
+  <button class="btn" onclick="enterBot()">Enter Arthouse Intelligence</button>
+  <p class="small">Telegram is the mainnet brain.</p>
 
-<div class="card">
-  <input id="input" class="input" placeholder="Paste anything..." />
+  <audio controls class="audio">
+    <source src="/audio/ambient.mp3" type="audio/mpeg">
+  </audio>
+</section>
 
-  <div class="mode-switch">
-    <div class="mode active" onclick="setMode('default')">Default</div>
-    <div class="mode" onclick="setMode('brutal')">Brutal</div>
-    <div class="mode" onclick="setMode('meme')">Meme</div>
+<!-- MANIFESTO -->
+<section class="section">
+  <h2 class="title">Manifesto</h2>
+  <div class="card">
+    <p>
+    We reject noise.<br><br>
+    We build machines that feel culture, not just data.<br><br>
+    Arthouse is not analysis.<br>
+    It is taste.<br><br>
+    Signal is rare.<br>
+    We exist to find it.
+    </p>
   </div>
 
-  <div class="row">
-    <button class="btn" onclick="analyze()">Scan</button>
-    <button class="btn alt" onclick="toBot()">Telegram</button>
+  <audio controls class="audio">
+    <source src="/audio/manifesto.mp3" type="audio/mpeg">
+  </audio>
+</section>
+
+<!-- TEAM -->
+<section class="section">
+  <h2 class="title">Collective</h2>
+  <div class="card">
+    <p>
+    Built by a distributed collective exploring AI, culture, and onchain systems.
+    </p>
+    <a href="https://x.com/arthousebase" target="_blank" class="small">View team →</a>
   </div>
+</section>
 
-  <div id="result" class="result">Awaiting input...</div>
-</div>
+<!-- TELEGRAM CORE -->
+<section class="section">
+  <h2 class="title">The Brain</h2>
+  <div class="card">
+    <p>
+    The real system lives in Telegram.<br><br>
+    Modes. Memory. Intelligence.<br>
+    This is where signal becomes understanding.
+    </p>
 
-<div class="badge">
-  <a href="https://orynth.dev/projects/arthousebot" target="_blank">
-    <img src="https://orynth.dev/api/badge/arthousebot?theme=light&style=default" width="120" />
-  </a>
-</div>
+    <button class="btn" onclick="enterBot()">Open Telegram Bot</button>
+  </div>
+</section>
 
-</div>
+<!-- BADGE -->
+<section class="section">
+  <div class="card" style="text-align:center">
+    <a href="https://orynth.dev/projects/arthousebot" target="_blank">
+      <img src="https://orynth.dev/api/badge/arthousebot?theme=light&style=default" width="140" />
+    </a>
+  </div>
+</section>
 
 <script>
-let mode = 'default';
-let lastInput = '';
-
-function setMode(m){
-  mode = m;
-  document.querySelectorAll('.mode').forEach(el=>el.classList.remove('active'));
-  event.target.classList.add('active');
-}
-
-async function analyze(){
-  const val = document.getElementById('input').value;
-  if(!val) return;
-
-  lastInput = val;
-
-  let style = '';
-  if(mode==='brutal') style='harsh and direct';
-  if(mode==='meme') style='funny and chaotic';
-
-  const result = document.getElementById('result');
-  result.innerHTML = `scanning (${mode})...`;
-
-  try{
-    const res = await fetch('/api/analyze',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({input: val, mode})
-    });
-
-    const data = await res.json();
-
-    const preview = data.result.split('\n').slice(0,2).join('\n');
-
-    result.innerHTML = `${preview}\n\n<span class='lock'>[ locked ] → Telegram</span>`;
-
-  }catch{
-    result.innerHTML = `preview ready\n\n<span class='lock'>[ locked ]</span>`;
-  }
-}
-
-function toBot(){
-  const url = `https://t.me/arthousexbt_bot?start=${encodeURIComponent(lastInput)}`;
-  window.open(url,'_blank');
+function enterBot(){
+  window.open('https://t.me/arthousexbt_bot','_blank');
 }
 </script>
 
