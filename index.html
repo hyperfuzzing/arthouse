@@ -3,99 +3,107 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>arthouse — museum v1</title>
+<title>arthouse — museum v2</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#050505;--text:#f1efe9;--dim:rgba(241,239,233,.6);--gold:#d4a843;--line:rgba(255,255,255,.08);
+  --bg:#070707;--text:#f1efe9;--dim:rgba(241,239,233,.6);--gold:#d4a843;--line:rgba(255,255,255,.08);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
-.section{min-height:100vh;padding:80px 20px;display:flex;flex-direction:column;justify-content:center;max-width:900px;margin:auto}
-.title{font-family:'Playfair Display';font-size:clamp(32px,6vw,72px);line-height:1}
-.subtitle{margin-top:16px;color:var(--dim)}
-.card{margin-top:30px;padding:20px;border:1px solid var(--line);border-radius:16px;background:#0a0a0a}
-.btn{margin-top:20px;padding:14px 20px;border:none;border-radius:12px;background:var(--gold);color:#000;font-weight:600;width:100%}
+
+.brand{position:fixed;top:14px;left:18px;font-family:'Playfair Display';color:var(--gold);letter-spacing:.08em}
+
+.wrap{max-width:800px;margin:auto;padding:100px 20px}
+.section{margin-bottom:100px;opacity:.4;transition:.6s ease}
+.section.active{opacity:1}
+
+.title{font-family:'Playfair Display';font-size:clamp(34px,6vw,68px);line-height:1.05}
+.subtitle{margin-top:14px;color:var(--dim);max-width:500px}
+
+.card{margin-top:28px;padding:20px;border:1px solid var(--line);border-radius:14px;background:#0b0b0b;transition:.3s}
+.card:hover{border-color:var(--gold)}
+
+.btn{margin-top:24px;padding:14px 18px;border:none;border-radius:10px;background:var(--gold);color:#000;font-weight:600;width:100%;cursor:pointer}
+
 .small{font-size:13px;color:var(--dim);margin-top:10px}
-.audio{margin-top:20px;width:100%}
-.brand{position:fixed;top:10px;left:16px;font-family:'Playfair Display';color:var(--gold)}
+
+.link{color:var(--gold);text-decoration:none}
+
 .divider{height:1px;background:var(--line);margin:40px 0}
+
 </style>
 </head>
 <body>
 
 <div class="brand">arthouse</div>
 
-<!-- HERO / ENTRY -->
+<div class="wrap">
+
 <section class="section">
-  <h1 class="title">This is not a website.<br>This is an entrance.</h1>
-  <p class="subtitle">The intelligence lives inside Telegram. What you see here is only a curated surface.</p>
-
-  <button class="btn" onclick="enterBot()">Enter Arthouse Intelligence</button>
-  <p class="small">Telegram is the mainnet brain.</p>
-
-  <audio controls class="audio">
-    <source src="/audio/ambient.mp3" type="audio/mpeg">
-  </audio>
+  <h1 class="title">This is not a tool.</h1>
+  <p class="subtitle">It is an interface to something deeper.</p>
 </section>
 
-<!-- MANIFESTO -->
 <section class="section">
-  <h2 class="title">Manifesto</h2>
   <div class="card">
-    <p>
-    We reject noise.<br><br>
-    We build machines that feel culture, not just data.<br><br>
-    Arthouse is not analysis.<br>
-    It is taste.<br><br>
-    Signal is rare.<br>
-    We exist to find it.
+    <h2 class="title" style="font-size:28px">Manifesto</h2>
+    <p class="small">
+      We reject noise.<br><br>
+      We build systems that understand culture.<br><br>
+      Arthouse is not analysis.<br>
+      It is taste.
     </p>
   </div>
-
-  <audio controls class="audio">
-    <source src="/audio/manifesto.mp3" type="audio/mpeg">
-  </audio>
 </section>
 
-<!-- TEAM -->
 <section class="section">
-  <h2 class="title">Collective</h2>
   <div class="card">
-    <p>
-    Built by a distributed collective exploring AI, culture, and onchain systems.
-    </p>
-    <a href="https://x.com/arthousebase" target="_blank" class="small">View team →</a>
+    <h2 class="title" style="font-size:28px">Collective</h2>
+    <p class="small">A distributed group exploring AI, art, and onchain systems.</p>
+    <a href="https://x.com/arthousebase" target="_blank" class="link">View team →</a>
   </div>
 </section>
 
-<!-- TELEGRAM CORE -->
 <section class="section">
-  <h2 class="title">The Brain</h2>
   <div class="card">
-    <p>
-    The real system lives in Telegram.<br><br>
-    Modes. Memory. Intelligence.<br>
-    This is where signal becomes understanding.
+    <h2 class="title" style="font-size:28px">The Brain</h2>
+    <p class="small">
+      The system does not live here.<br>
+      It lives in Telegram.
     </p>
-
-    <button class="btn" onclick="enterBot()">Open Telegram Bot</button>
+    <button class="btn" onclick="enterBot()">Enter</button>
   </div>
 </section>
 
-<!-- BADGE -->
 <section class="section">
   <div class="card" style="text-align:center">
     <a href="https://orynth.dev/projects/arthousebot" target="_blank">
-      <img src="https://orynth.dev/api/badge/arthousebot?theme=light&style=default" width="140" />
+      <img src="https://orynth.dev/api/badge/arthousebot?theme=light&style=default" width="120" />
     </a>
   </div>
 </section>
+
+</div>
 
 <script>
 function enterBot(){
   window.open('https://t.me/arthousexbt_bot','_blank');
 }
+
+const sections = document.querySelectorAll('.section');
+
+function reveal(){
+  const trigger = window.innerHeight * 0.85;
+  sections.forEach(sec=>{
+    if(sec.getBoundingClientRect().top < trigger){
+      sec.classList.add('active');
+    }
+  });
+}
+
+window.addEventListener('scroll', reveal);
+reveal();
 </script>
 
 </body>
