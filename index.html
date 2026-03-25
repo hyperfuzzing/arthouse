@@ -3,45 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>arthouse — museum</title>
-
+<title>arthouse — museum full</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
-
 <style>
 :root{
   --gold:#d4a843;
   --amber:#e8891a;
   --white:#f0ece2;
   --dim:rgba(240,236,226,0.7);
+  --green:#4ade80;
 }
-
 *{margin:0;padding:0;box-sizing:border-box}
-
 body{
   font-family:'IBM Plex Mono', monospace;
   background:#050505;
   color:var(--white);
   overflow-x:hidden;
 }
-
-/* CANVAS BACKGROUND */
-canvas{
-  position:fixed;
-  inset:0;
-  z-index:-1;
-}
-
+/* CANVAS BG */
+canvas{position:fixed; inset:0; z-index:-1;}
 /* GRAIN */
 .grain{
-  position:fixed;
-  inset:0;
+  position:fixed; inset:0;
   opacity:.05;
   pointer-events:none;
   background:url("https://grainy-gradients.vercel.app/noise.svg");
   z-index:10;
 }
-
-/* CURSOR LIGHT */
+/* CURSOR */
 .cursor{
   position:fixed;
   width:400px;height:400px;
@@ -51,7 +40,6 @@ canvas{
   transform:translate(-50%,-50%);
   z-index:9;
 }
-
 /* SECTION */
 .section{
   min-height:100vh;
@@ -59,27 +47,50 @@ canvas{
   display:flex;
   flex-direction:column;
   justify-content:center;
-  position:relative;
-  z-index:2;
 }
-
 /* TYPO */
 h1,h2{
   font-family:'Playfair Display', serif;
   font-size:clamp(48px,9vw,110px);
   line-height:.9;
 }
-
 .gold{color:var(--gold)}
 .amber{color:var(--amber)}
-
 p{
-  max-width:600px;
+  max-width:640px;
   margin-top:24px;
   color:var(--dim);
   line-height:1.8;
 }
-
+/* MANIFESTO */
+.manifesto{
+  font-size:clamp(20px,3vw,32px);
+  line-height:1.6;
+  font-family:'Playfair Display', serif;
+}
+/* TERMINAL */
+.terminal{
+  margin-top:40px;
+  background:#0f0f0d;
+  border:1px solid rgba(255,255,255,.08);
+  padding:20px;
+  font-size:13px;
+}
+.term-line{margin:6px 0}
+.bot{color:var(--gold)}
+.user{color:var(--green)}
+.cursor-blink{
+  display:inline-block;
+  width:6px;
+  height:12px;
+  background:var(--green);
+  margin-left:4px;
+  animation:blink 1s infinite;
+}
+@keyframes blink{
+  0%,100%{opacity:1}
+  50%{opacity:0}
+}
 /* REVEAL */
 .reveal{
   opacity:0;
@@ -90,8 +101,7 @@ p{
   opacity:1;
   transform:translateY(0);
 }
-
-/* BUTTON */
+/* CTA */
 .cta{
   margin-top:40px;
   padding:18px 32px;
@@ -101,9 +111,7 @@ p{
   font-weight:bold;
   letter-spacing:.1em;
   display:inline-block;
-  box-shadow:0 10px 40px rgba(212,168,67,.3);
 }
-
 /* PROGRESS */
 .progress{
   position:fixed;
@@ -115,7 +123,6 @@ p{
 }
 </style>
 </head>
-
 <body>
 
 <canvas id="bg"></canvas>
@@ -123,113 +130,179 @@ p{
 <div class="cursor" id="cursor"></div>
 <div class="progress" id="progress"></div>
 
+<!-- HERO -->
 <section class="section">
   <h1 class="reveal">art<span class="gold">house</span><br><span class="amber">bot.</span></h1>
-  <p class="reveal">A generative, living interface for artistic dialogue.</p>
+  <p class="reveal">A living interface for art critique, curation, and discovery.</p>
 </section>
 
+<!-- MANIFESTO -->
+<section class="section">
+  <h2 class="reveal">Manifesto</h2>
+  <p class="manifesto reveal">
+    Art is not content.<br>
+    Art is signal.<br><br>
+    In a world of infinite noise,<br>
+    curation becomes creation.
+  </p>
+</section>
+
+<!-- STEP 1 -->
 <section class="section">
   <h2 class="reveal">Open the <span class="gold">Bot</span></h2>
   <p class="reveal">Search @arthousexbt_bot on Telegram.</p>
 </section>
 
+<!-- STEP 2 -->
 <section class="section">
   <h2 class="reveal">Share Your <span class="gold">Work</span></h2>
-  <p class="reveal">Images, links, or concepts.</p>
+  <p class="reveal">Upload image, link, or describe your idea.</p>
 </section>
 
+<!-- STEP 3 TERMINAL -->
 <section class="section">
   <h2 class="reveal">Receive <span class="gold">Feedback</span></h2>
-  <p class="reveal">Curatorial intelligence in motion.</p>
+  <div class="terminal reveal">
+    <div id="terminal-output"></div>
+  </div>
 </section>
 
+<!-- STEP 4 -->
 <section class="section">
   <h2 class="reveal">Iterate & <span class="gold">Evolve</span></h2>
-  <p class="reveal">Dialogue shapes direction.</p>
+  <p class="reveal">Refine your work through dialogue.</p>
 </section>
 
+<!-- STEP 5 -->
 <section class="section">
   <h2 class="reveal">Join the <span class="gold">Network</span></h2>
-  <p class="reveal">Collectors, galleries, context.</p>
+  <p class="reveal">Collectors. Curators. Context.</p>
 </section>
 
+<!-- CTA -->
 <section class="section">
   <h2 class="reveal">Start <span class="gold">Now</span></h2>
   <a href="https://t.me/arthousexbt_bot" class="cta reveal">Launch Bot</a>
 </section>
 
+<!-- AMBIENCE AUDIO -->
+<audio id="ambience" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-
-/* CANVAS GENERATIVE BACKGROUND */
-const canvas = document.getElementById("bg");
-const ctx = canvas.getContext("2d");
-
-let w, h, t = 0;
-
-function resize(){
-  w = canvas.width = window.innerWidth;
-  h = canvas.height = window.innerHeight;
-}
+/* CANVAS BG */
+const c = document.getElementById("bg");
+const ctx = c.getContext("2d");
+let w,h,t=0;
+function resize(){ w=c.width=window.innerWidth; h=c.height=window.innerHeight; }
 resize();
-window.addEventListener("resize", resize);
-
-let mouse = {x:0, y:0};
-
-document.addEventListener("mousemove", e=>{
-  mouse.x = e.clientX;
-  mouse.y = e.clientY;
-});
-
+window.addEventListener("resize",resize);
+let mouse={x:0,y:0};
+document.addEventListener("mousemove",e=>{ mouse.x=e.clientX; mouse.y=e.clientY; });
 function draw(){
-  t += 0.01;
-
-  ctx.fillStyle = "#050505";
-  ctx.fillRect(0,0,w,h);
-
+  t+=0.01;
+  ctx.fillStyle="#050505"; ctx.fillRect(0,0,w,h);
   for(let i=0;i<3;i++){
     ctx.beginPath();
     for(let x=0;x<w;x+=20){
-      const y = h/2 + Math.sin(x*0.002 + t + i)*80 +
-                Math.cos(mouse.x*0.002 + t)*40;
+      const y=h/2 + Math.sin(x*0.002+t+i)*80 + Math.cos(mouse.x*0.002+t)*40;
       ctx.lineTo(x,y);
     }
-
-    ctx.strokeStyle = `rgba(212,168,67,${0.08 + i*0.05})`;
-    ctx.lineWidth = 2;
+    ctx.strokeStyle=`rgba(212,168,67,${0.08+i*0.05})`;
     ctx.stroke();
   }
-
   requestAnimationFrame(draw);
 }
 draw();
-
 /* CURSOR */
-const cursor = document.getElementById("cursor");
-document.addEventListener("mousemove", e=>{
-  cursor.style.left = e.clientX+"px";
-  cursor.style.top = e.clientY+"px";
+const cursor=document.getElementById("cursor");
+document.addEventListener("mousemove",e=>{
+  cursor.style.left=e.clientX+"px";
+  cursor.style.top=e.clientY+"px";
 });
-
-/* SCROLL REVEAL */
-const reveals = document.querySelectorAll(".reveal");
+/* REVEAL */
+const reveals=document.querySelectorAll(".reveal");
 function reveal(){
-  const trigger = window.innerHeight*0.85;
+  const trigger=window.innerHeight*0.85;
   reveals.forEach(el=>{
-    if(el.getBoundingClientRect().top < trigger){
+    if(el.getBoundingClientRect().top<trigger){
       el.classList.add("active");
     }
   });
 }
-window.addEventListener("scroll", reveal);
+window.addEventListener("scroll",reveal);
 reveal();
-
 /* PROGRESS */
-window.addEventListener("scroll", ()=>{
-  const h = document.documentElement;
-  const scrolled = h.scrollTop/(h.scrollHeight-h.clientHeight);
-  document.getElementById("progress").style.width = scrolled*100+"%";
+window.addEventListener("scroll",()=>{
+  const h=document.documentElement;
+  const scrolled=h.scrollTop/(h.scrollHeight-h.clientHeight);
+  document.getElementById("progress").style.width=scrolled*100+"%";
 });
 
+/* TERMINAL HIDUP */
+const lines = [
+  {text:"you › uploading artwork.png", cls:"user"},
+  {text:"bot › analysing composition...", cls:"bot"},
+  {text:"bot › scanning visual hierarchy...", cls:"bot"},
+  {text:"bot › detecting conceptual layers...", cls:"bot"},
+  {text:"bot › collector alignment: strong", cls:"bot"},
+  {text:"bot › verdict: culturally resonant", cls:"bot"}
+];
+const output = document.getElementById("terminal-output");
+let lineIndex = 0;
+function typeLine(text, cls, callback){
+  const div = document.createElement("div");
+  div.className = "term-line " + cls;
+  output.appendChild(div);
+  let i = 0;
+  function typing(){
+    if(i < text.length){
+      div.innerHTML = text.substring(0,i) + '<span class="cursor-blink"></span>';
+      i++;
+      setTimeout(typing, 25 + Math.random()*30);
+    } else {
+      div.innerHTML = text;
+      callback && setTimeout(callback, 400);
+    }
+  }
+  typing();
+}
+function runTerminal(){
+  if(lineIndex < lines.length){
+    const l = lines[lineIndex];
+    typeLine(l.text, l.cls, ()=>{
+      lineIndex++;
+      runTerminal();
+    });
+  } else {
+    setTimeout(()=>{
+      output.innerHTML = "";
+      lineIndex = 0;
+      runTerminal();
+    }, 2000);
+  }
+}
+const termSection = document.querySelector(".terminal");
+let started = false;
+function checkTerminal(){
+  const rect = termSection.getBoundingClientRect();
+  if(!started && rect.top < window.innerHeight * 0.8){
+    started = true;
+    runTerminal();
+  }
+}
+window.addEventListener("scroll", checkTerminal);
+checkTerminal();
+
+/* AUDIO AMBIENCE */
+const audio = document.getElementById("ambience");
+function startAudio(){
+  audio.volume = 0.3;
+  audio.play().catch(()=>{});
+  window.removeEventListener("click", startAudio);
+}
+window.addEventListener("click", startAudio);
 </script>
 
 </body>
