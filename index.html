@@ -27,6 +27,15 @@
       --mono:    'DM Mono', monospace;
     }
 
+    .ft-badge {
+      margin-top:20px;
+      display:flex;justify-content:center;
+      opacity:.35;
+      transition:opacity .3s;
+    }
+    .ft-badge:hover { opacity:.7; }
+    .ft-badge img { height:20px;width:auto;display:block; }
+
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     html { scroll-behavior:smooth; }
 
@@ -904,6 +913,11 @@
       <a href="https://t.me/arthousexbt_bot" target="_blank">Open Bot</a>
     </nav>
     <p class="ft-copy">© 2026 arthouse · gallery &amp; art creators · @arthousebase · pixels. patterns. paradoxes.</p>
+    <div class="ft-badge">
+      <a href="https://orynth.dev/projects/arthousebot-3604" target="_blank" rel="noopener">
+        <img src="https://orynth.dev/api/badge/arthousebot-3604?theme=light&style=default" alt="Featured on Orynth" loading="lazy" />
+      </a>
+    </div>
   </footer>
 
   <script>
