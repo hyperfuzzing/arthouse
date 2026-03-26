@@ -628,16 +628,15 @@
   <section id="hero">
     <div class="hero-glow"></div>
     <p class="hero-label">
-      <span id="typed-text"></span><span class="cursor"></span>
+      <span id="typed-text"></span><span class="cursor" id="main-cursor"></span>
     </p>
-    <h1 class="hero-title">art<span class="accent">house</span></h1>
-    <div class="hero-row">
-      <p class="hero-desc">
-        <strong>A gallery built at the edge of algorithm and intuition.</strong><br><br>
-        Where pixels carry philosophy, patterns hold paradoxes, and every creator finds their curator.
-        Drop your work into the dialogue — the canvas awaits.
+    <h1 class="hero-title" id="hero-title" style="opacity:0;transition:opacity .5s ease;">art<span class="accent">house</span></h1>
+    <div class="hero-row" style="opacity:0;transition:opacity .6s ease;" id="hero-body">
+      <p class="hero-desc" id="hero-desc">
+        <span id="desc-line1"></span><span id="desc-cursor1" class="cursor" style="display:none;"></span><br><br>
+        <span id="desc-line2"></span><span id="desc-cursor2" class="cursor" style="display:none;"></span>
       </p>
-      <div class="hero-cta">
+      <div class="hero-cta" id="hero-cta" style="opacity:0;transition:opacity .5s ease;">
         <a href="https://t.me/arthousexbt_bot" target="_blank" class="btn-primary">
           <span>↗ Open the Bot</span><span>→</span>
         </a>
@@ -847,11 +846,6 @@
         Powered by <a href="https://t.me/arthousexbt_bot" target="_blank">@arthousexbt_bot</a>
         · Built on dialogue · Curated without compromise.
       </p>
-      <div class="manifesto-badges reveal">
-        <a href="https://orynth.dev/projects/arthousebot" target="_blank" rel="noopener">
-          <img src="https://orynth.dev/api/badge/arthousebot?theme=light&style=default" alt="Featured on Orynth" width="240" height="72" />
-        </a>
-      </div>
     </div>
   </section>
 
@@ -929,15 +923,62 @@
       io.observe(el);
     });
 
-    // Typewriter
-    const phrase = 'arthouse_init.exe — gallery & art creators';
-    const target = document.getElementById('typed-text');
-    let i = 0;
-    const type = () => {
-      target.textContent = phrase.slice(0, i);
-      if (i++ <= phrase.length) setTimeout(type, i < 2 ? 600 : 36);
-    };
-    setTimeout(type, 800);
+    // Typewriter engine
+    function typeText(el, text, speed, onDone) {
+      let i = 0;
+      el.textContent = '';
+      const tick = () => {
+        el.textContent = text.slice(0, i);
+        if (i++ <= text.length) setTimeout(tick, speed);
+        else if (onDone) setTimeout(onDone, 180);
+      };
+      tick();
+    }
+
+    // Sequence
+    const label     = document.getElementById('typed-text');
+    const mainCur   = document.getElementById('main-cursor');
+    const titleEl   = document.getElementById('hero-title');
+    const bodyEl    = document.getElementById('hero-body');
+    const ctaEl     = document.getElementById('hero-cta');
+    const line1El   = document.getElementById('desc-line1');
+    const cur1El    = document.getElementById('desc-cursor1');
+    const line2El   = document.getElementById('desc-line2');
+    const cur2El    = document.getElementById('desc-cursor2');
+
+    const LINE1 = 'A gallery built at the edge of algorithm and intuition.';
+    const LINE2 = 'Where pixels carry philosophy, patterns hold paradoxes, and every creator finds their curator. Drop your work into the dialogue — the canvas awaits.';
+
+    setTimeout(() => {
+      // Step 1: type top label
+      typeText(label, 'arthouse_init.exe — gallery & art creators', 34, () => {
+        // Step 2: fade in title
+        mainCur.style.display = 'none';
+        titleEl.style.opacity = '1';
+
+        setTimeout(() => {
+          // Step 3: show body container, reveal desc line 1
+          bodyEl.style.opacity = '1';
+          cur1El.style.display = 'inline-block';
+          typeText(line1El, LINE1, 30, () => {
+            cur1El.style.display = 'none';
+
+            // Step 4: type line 2
+            setTimeout(() => {
+              cur2El.style.display = 'inline-block';
+              typeText(line2El, LINE2, 22, () => {
+                cur2El.style.display = 'none';
+
+                // Step 5: fade in CTA buttons
+                setTimeout(() => {
+                  ctaEl.style.opacity = '1';
+                }, 200);
+              });
+            }, 120);
+          });
+        }, 350);
+      });
+    }, 600);
   </script>
 </body>
 </html>
