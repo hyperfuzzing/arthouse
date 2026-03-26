@@ -59,30 +59,35 @@
       border-bottom:1px solid var(--line);
       height:52px;
       display:flex;align-items:center;justify-content:space-between;
-      padding:0 28px;
+      padding:0 20px;
+      gap:12px;
     }
     .bar-logo {
       font-family:var(--serif);font-style:italic;font-weight:300;
       font-size:20px;letter-spacing:.04em;color:var(--white);
       text-decoration:none;
+      flex-shrink:0;
     }
     .bar-logo span { color:var(--gold); }
     .bar-nav {
-      display:flex;align-items:center;gap:28px;
+      display:none;
+      align-items:center;gap:24px;
     }
     .bar-nav a {
       font-size:9px;letter-spacing:.22em;text-transform:uppercase;
       color:var(--dim);text-decoration:none;
       transition:color .2s;
+      white-space:nowrap;
     }
     .bar-nav a:hover { color:var(--white); }
     .bar-cta {
-      font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+      font-size:9px;letter-spacing:.14em;text-transform:uppercase;
       color:#000;background:var(--gold);
-      padding:9px 18px;text-decoration:none;
+      padding:9px 14px;text-decoration:none;
       font-weight:500;
       transition:background .2s;
       white-space:nowrap;
+      flex-shrink:0;
     }
     .bar-cta:hover { background:var(--gold2); }
 
@@ -547,6 +552,7 @@
     /* ── DESKTOP ── */
     @media(min-width:768px){
       .museum-bar { padding:0 48px; }
+      .bar-nav { display:flex; }
       #hero { padding:140px 48px 96px; }
       .hero-row { flex-direction:row;align-items:flex-end;justify-content:space-between;gap:48px; }
       .hero-cta { min-width:280px; }
@@ -659,8 +665,77 @@
     </div>
   </div>
 
-  <!-- HOW IT WORKS -->
-  <section id="process" style="padding-left:0;padding-right:0;">
+  <!-- SOCIALS (moved above process) -->
+  <section id="socials">
+    <p class="eyebrow reveal">Community</p>
+    <h2 class="sec-title reveal">find us<br><em>everywhere.</em></h2>
+    <div class="social-grid reveal">
+
+      <!-- Telegram -->
+      <a href="https://t.me/arthousexbt_bot" target="_blank" class="soc-card">
+        <div class="soc-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.19 13.67l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.958.889z"/></svg>
+        </div>
+        <span class="soc-name">Telegram</span>
+        <span class="soc-handle">@arthousexbt_bot</span>
+        <span class="soc-arrow">Visit ↗</span>
+      </a>
+
+      <!-- X / Twitter -->
+      <a href="https://x.com/arthousebase" target="_blank" class="soc-card">
+        <div class="soc-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </div>
+        <span class="soc-name">X / Twitter</span>
+        <span class="soc-handle">@arthousebase</span>
+        <span class="soc-arrow">Visit ↗</span>
+      </a>
+
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/arthousebase" target="_blank" class="soc-card">
+        <div class="soc-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </div>
+        <span class="soc-name">Instagram</span>
+        <span class="soc-handle">@arthousebase</span>
+        <span class="soc-arrow">Visit ↗</span>
+      </a>
+
+      <!-- TikTok -->
+      <a href="https://www.tiktok.com/@arthousebase" target="_blank" class="soc-card">
+        <div class="soc-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.73a4.85 4.85 0 01-1.01-.04z"/></svg>
+        </div>
+        <span class="soc-name">TikTok</span>
+        <span class="soc-handle">@arthousebase</span>
+        <span class="soc-arrow">Visit ↗</span>
+      </a>
+
+      <!-- Base.app -->
+      <a href="https://base.app/profile/arthouse" target="_blank" class="soc-card">
+        <div class="soc-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+        </div>
+        <span class="soc-name">Base.app</span>
+        <span class="soc-handle">arthouse</span>
+        <span class="soc-arrow">Visit ↗</span>
+      </a>
+
+      <!-- Zora -->
+      <a href="https://zora.co/@arthousebase" target="_blank" class="soc-card">
+        <div class="soc-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8 15l8-6M8 9h8M8 15h8"/></svg>
+        </div>
+        <span class="soc-name">Zora</span>
+        <span class="soc-handle">@arthousebase</span>
+        <span class="soc-arrow">Visit ↗</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS (moved below socials) -->
+  <section id="process" style="padding-left:0;padding-right:0;border-top:1px solid var(--line);">
     <p class="eyebrow reveal">Process</p>
     <h2 class="sec-title reveal">how the<br><em>work happens.</em></h2>
     <ul class="step-list">
@@ -776,80 +851,7 @@
         <a href="https://orynth.dev/projects/arthousebot" target="_blank" rel="noopener">
           <img src="https://orynth.dev/api/badge/arthousebot?theme=light&style=default" alt="Featured on Orynth" width="240" height="72" />
         </a>
-        <a href="https://github.com/botlumio/arthouse" target="_blank" rel="noopener" class="badge-gh">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
-          github / botlumio/arthouse
-        </a>
       </div>
-    </div>
-  </section>
-
-  <!-- SOCIALS -->
-  <section id="socials">
-    <p class="eyebrow reveal">Community</p>
-    <h2 class="sec-title reveal">find us<br><em>everywhere.</em></h2>
-    <div class="social-grid reveal">
-
-      <!-- Telegram -->
-      <a href="https://t.me/arthousexbt_bot" target="_blank" class="soc-card">
-        <div class="soc-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.19 13.67l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.958.889z"/></svg>
-        </div>
-        <span class="soc-name">Telegram</span>
-        <span class="soc-handle">@arthousexbt_bot</span>
-        <span class="soc-arrow">Visit ↗</span>
-      </a>
-
-      <!-- X / Twitter -->
-      <a href="https://x.com/arthousebase" target="_blank" class="soc-card">
-        <div class="soc-icon">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </div>
-        <span class="soc-name">X / Twitter</span>
-        <span class="soc-handle">@arthousebase</span>
-        <span class="soc-arrow">Visit ↗</span>
-      </a>
-
-      <!-- Instagram -->
-      <a href="https://www.instagram.com/arthousebase" target="_blank" class="soc-card">
-        <div class="soc-icon">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-        </div>
-        <span class="soc-name">Instagram</span>
-        <span class="soc-handle">@arthousebase</span>
-        <span class="soc-arrow">Visit ↗</span>
-      </a>
-
-      <!-- TikTok -->
-      <a href="https://www.tiktok.com/@arthousebase" target="_blank" class="soc-card">
-        <div class="soc-icon">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.73a4.85 4.85 0 01-1.01-.04z"/></svg>
-        </div>
-        <span class="soc-name">TikTok</span>
-        <span class="soc-handle">@arthousebase</span>
-        <span class="soc-arrow">Visit ↗</span>
-      </a>
-
-      <!-- Base.app -->
-      <a href="https://base.app/profile/arthouse" target="_blank" class="soc-card">
-        <div class="soc-icon">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
-        </div>
-        <span class="soc-name">Base.app</span>
-        <span class="soc-handle">arthouse</span>
-        <span class="soc-arrow">Visit ↗</span>
-      </a>
-
-      <!-- Zora -->
-      <a href="https://zora.co/@arthousebase" target="_blank" class="soc-card">
-        <div class="soc-icon">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8 15l8-6M8 9h8M8 15h8"/></svg>
-        </div>
-        <span class="soc-name">Zora</span>
-        <span class="soc-handle">@arthousebase</span>
-        <span class="soc-arrow">Visit ↗</span>
-      </a>
-
     </div>
   </section>
 
@@ -901,12 +903,11 @@
       </div>
     </div>
     <nav class="ft-nav">
+      <a href="#socials">Community</a>
       <a href="#process">Process</a>
       <a href="#demo">The Bot</a>
       <a href="#manifesto">Manifesto</a>
-      <a href="#socials">Community</a>
       <a href="https://t.me/arthousexbt_bot" target="_blank">Open Bot</a>
-      <a href="https://github.com/botlumio/arthouse" target="_blank">GitHub</a>
     </nav>
     <p class="ft-copy">© 2026 arthouse · gallery &amp; art creators · @arthousebase · pixels. patterns. paradoxes.</p>
   </footer>
