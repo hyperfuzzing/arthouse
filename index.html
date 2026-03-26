@@ -3,24 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#080807" />
+  <meta name="theme-color" content="#050504" />
   <title>arthouse — pixels. patterns. paradoxes.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Playfair+Display:ital,wght@0,900;1,400;1,700;1,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600;1,700&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg:    #080807;
-      --bg2:   #0f0f0d;
-      --line:  rgba(255,255,255,0.08);
-      --white: #f0ece2;
-      --dim:   rgba(240,236,226,0.92);
-      --faint: rgba(240,236,226,0.70);
-      --gold:  #d4a843;
-      --amber: #e8891a;
-      --green: #4ade80;
-      --mono:  'IBM Plex Mono', monospace;
-      --serif: 'Playfair Display', serif;
+      --bg:      #050504;
+      --bg2:     #0c0c0a;
+      --bg3:     #111110;
+      --line:    rgba(255,255,255,0.07);
+      --line2:   rgba(255,255,255,0.12);
+      --white:   #f4f0e8;
+      --off:     rgba(244,240,232,0.85);
+      --dim:     rgba(244,240,232,0.50);
+      --ghost:   rgba(244,240,232,0.25);
+      --gold:    #c9973a;
+      --gold2:   #e8b84b;
+      --goldlt:  rgba(201,151,58,0.12);
+      --goldln:  rgba(201,151,58,0.30);
+      --serif:   'Cormorant Garamond', serif;
+      --mono:    'DM Mono', monospace;
     }
 
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -34,309 +38,570 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* scanlines */
-    body::after {
+    /* ── GRAIN OVERLAY ── */
+    body::before {
       content:'';
       position:fixed;inset:0;
-      background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
       pointer-events:none;
       z-index:9000;
+      opacity:.55;
     }
 
-    /* ─── TOP TICKER ─── */
-    .ticker-wrap {
+    /* ── TOP MUSEUM BAR ── */
+    .museum-bar {
       position:fixed;top:0;left:0;right:0;
+      z-index:200;
+      background: rgba(5,5,4,0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom:1px solid var(--line);
+      height:52px;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 28px;
+    }
+    .bar-logo {
+      font-family:var(--serif);font-style:italic;font-weight:300;
+      font-size:20px;letter-spacing:.04em;color:var(--white);
+      text-decoration:none;
+    }
+    .bar-logo span { color:var(--gold); }
+    .bar-nav {
+      display:flex;align-items:center;gap:28px;
+    }
+    .bar-nav a {
+      font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+      color:var(--dim);text-decoration:none;
+      transition:color .2s;
+    }
+    .bar-nav a:hover { color:var(--white); }
+    .bar-cta {
+      font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+      color:#000;background:var(--gold);
+      padding:9px 18px;text-decoration:none;
+      font-weight:500;
+      transition:background .2s;
+      white-space:nowrap;
+    }
+    .bar-cta:hover { background:var(--gold2); }
+
+    /* ── TICKER ── */
+    .ticker-wrap {
+      position:fixed;bottom:0;left:0;right:0;
       z-index:100;
       background:var(--bg);
-      border-bottom:1px solid var(--line);
-      overflow:hidden;
-      height:36px;
-      display:flex;align-items:center;
+      border-top:1px solid var(--line);
+      overflow:hidden;height:30px;display:flex;align-items:center;
     }
     .ticker-label {
       flex-shrink:0;
-      background:var(--gold);
-      color:#000;
-      font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
-      padding:0 14px;height:100%;
-      display:flex;align-items:center;
-      white-space:nowrap;
+      background:var(--gold);color:#000;
+      font-size:8px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;
+      padding:0 16px;height:100%;display:flex;align-items:center;white-space:nowrap;
     }
-    .ticker-track {
-      display:flex;
-      animation:ticker 22s linear infinite;
-      white-space:nowrap;
-    }
-    .ticker-item { font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);padding:0 24px; }
-    .ticker-sep  { color:var(--gold);padding:0 6px; }
+    .ticker-track { display:flex;animation:ticker 26s linear infinite;white-space:nowrap; }
+    .ticker-item { font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);padding:0 22px; }
+    .ticker-sep  { color:var(--goldln);padding:0 4px;font-size:8px; }
     @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-    /* ─── HERO ─── */
+    /* ── HERO ── */
     #hero {
       min-height:100svh;
-      padding:80px 24px 60px;
-      display:flex;flex-direction:column;justify-content:center;
+      padding:120px 28px 80px;
+      display:flex;flex-direction:column;justify-content:flex-end;
       position:relative;overflow:hidden;
     }
-    #hero::before {
+
+    /* Hero background grid */
+    #hero::after {
       content:'';position:absolute;inset:0;
       background-image:
-        linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px);
-      background-size:60px 60px;
-      mask-image:radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
-      -webkit-mask-image:radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size:72px 72px;
+      mask-image:radial-gradient(ellipse 70% 90% at 20% 60%, black 20%, transparent 80%);
+      -webkit-mask-image:radial-gradient(ellipse 70% 90% at 20% 60%, black 20%, transparent 80%);
     }
 
-    .hero-prompt {
-      font-size:12px;letter-spacing:.12em;color:var(--gold);
-      text-transform:uppercase;margin-bottom:32px;
-      display:flex;align-items:center;gap:10px;
-      position:relative;z-index:1;
+    /* Gold spotlight glow */
+    .hero-glow {
+      position:absolute;
+      width:600px;height:600px;
+      background:radial-gradient(ellipse, rgba(201,151,58,0.06) 0%, transparent 70%);
+      top:-100px;left:-150px;
+      pointer-events:none;
     }
-    .prompt-arrow { color:var(--green);font-weight:700; }
-    .cursor-blink {
-      display:inline-block;width:8px;height:14px;
-      background:var(--green);
-      animation:blink 1s step-end infinite;
-      vertical-align:middle;margin-left:3px;
+
+    .hero-label {
+      position:relative;z-index:2;
+      font-size:9px;letter-spacing:.3em;color:var(--gold);
+      text-transform:uppercase;margin-bottom:28px;
+      display:flex;align-items:center;gap:12px;
     }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .hero-label::before {
+      content:'';display:block;
+      width:32px;height:1px;background:var(--gold);opacity:.6;
+    }
 
     .hero-title {
-      font-family:var(--serif);font-weight:900;font-style:italic;
-      font-size:clamp(70px,22vw,180px);
-      line-height:.85;letter-spacing:-.03em;
-      color:var(--white);margin-bottom:28px;
-      position:relative;z-index:1;
+      font-family:var(--serif);font-weight:300;font-style:italic;
+      font-size:clamp(76px,24vw,200px);
+      line-height:.82;letter-spacing:-.02em;
+      color:var(--white);
+      position:relative;z-index:2;
+      margin-bottom:8px;
     }
-    .hero-title .gold { color:var(--gold);font-style:normal; }
+    .hero-title .accent {
+      color:var(--gold);
+      font-style:normal;font-weight:600;
+    }
+    .hero-title-sub {
+      font-family:var(--serif);font-weight:300;font-style:italic;
+      font-size:clamp(76px,24vw,200px);
+      line-height:.82;letter-spacing:-.02em;
+      color:var(--ghost);
+      position:relative;z-index:2;
+      margin-bottom:48px;
+    }
 
-    .hero-sub {
-      font-size:clamp(13px,3.8vw,16px);
-      color:var(--dim);line-height:1.75;
-      max-width:460px;margin-bottom:44px;
-      letter-spacing:.03em;position:relative;z-index:1;
+    .hero-row {
+      display:flex;flex-direction:column;gap:32px;
+      position:relative;z-index:2;
     }
-    .hero-sub strong { color:var(--white);font-weight:600; }
+    .hero-desc {
+      font-size:clamp(13px,3.5vw,15px);
+      color:var(--off);line-height:1.85;
+      max-width:400px;
+      font-weight:300;letter-spacing:.025em;
+    }
+    .hero-desc strong { color:var(--white);font-weight:500; }
 
     .hero-cta {
-      display:flex;flex-direction:column;gap:12px;
-      max-width:340px;position:relative;z-index:1;
+      display:flex;flex-direction:column;gap:10px;
+      max-width:320px;
     }
 
-    .btn-main {
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
+    .btn-primary {
+      display:flex;align-items:center;justify-content:space-between;
       background:var(--gold);color:#000;
-      font-family:var(--mono);font-size:12px;font-weight:700;
-      letter-spacing:.12em;text-transform:uppercase;
-      padding:18px 22px;text-decoration:none;
-      transition:background .2s,transform .15s;
+      font-family:var(--mono);font-size:10px;font-weight:500;
+      letter-spacing:.18em;text-transform:uppercase;
+      padding:17px 22px;text-decoration:none;
+      transition:background .25s,transform .15s;
       -webkit-tap-highlight-color:transparent;
     }
-    .btn-main:active { transform:scale(.97);background:var(--amber); }
+    .btn-primary:hover { background:var(--gold2); }
+    .btn-primary:active { transform:scale(.97); }
 
-    .btn-ghost {
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-      border:1px solid var(--line);color:var(--dim);
-      font-family:var(--mono);font-size:12px;
-      letter-spacing:.12em;text-transform:uppercase;
-      padding:18px 22px;text-decoration:none;
-      transition:border-color .2s,color .2s;
+    .btn-outline {
+      display:flex;align-items:center;justify-content:space-between;
+      border:1px solid var(--line2);color:var(--off);
+      font-family:var(--mono);font-size:10px;font-weight:300;
+      letter-spacing:.18em;text-transform:uppercase;
+      padding:17px 22px;text-decoration:none;
+      transition:border-color .25s,color .25s;
       -webkit-tap-highlight-color:transparent;
     }
-    .btn-ghost:active { border-color:var(--gold);color:var(--gold); }
+    .btn-outline:hover { border-color:var(--goldln);color:var(--gold); }
 
     .hero-corner {
-      position:absolute;bottom:44px;right:24px;
-      font-size:9px;letter-spacing:.2em;color:var(--faint);
+      position:absolute;bottom:52px;right:28px;z-index:2;
+      font-size:8px;letter-spacing:.22em;color:var(--ghost);
       text-transform:uppercase;writing-mode:vertical-rl;
+      display:flex;align-items:center;gap:10px;
+    }
+    .hero-corner::before {
+      content:'';display:block;width:1px;height:40px;
+      background:var(--line2);
     }
 
-    /* ─── STATS ─── */
-    .stats-bar {
+    /* ── COLLECTION LINE ── */
+    .collection-line {
       border-top:1px solid var(--line);
       border-bottom:1px solid var(--line);
       display:grid;grid-template-columns:repeat(3,1fr);
     }
-    .stat { padding:28px 16px;border-right:1px solid var(--line);text-align:center; }
-    .stat:last-child { border-right:none; }
-    .stat-val {
-      display:block;font-family:var(--serif);font-style:italic;
-      font-size:clamp(30px,8vw,52px);color:var(--gold);line-height:1;margin-bottom:8px;
+    .col-item {
+      padding:32px 20px;
+      border-right:1px solid var(--line);
+      display:flex;flex-direction:column;gap:6px;
+      align-items:center;text-align:center;
     }
-    .stat-label { font-size:9px;letter-spacing:.2em;color:var(--faint);text-transform:uppercase; }
+    .col-item:last-child { border-right:none; }
+    .col-val {
+      font-family:var(--serif);font-style:italic;font-weight:300;
+      font-size:clamp(36px,9vw,60px);color:var(--gold);line-height:1;
+    }
+    .col-label {
+      font-size:8px;letter-spacing:.25em;color:var(--ghost);text-transform:uppercase;
+    }
 
-    /* ─── SECTIONS ─── */
-    section { padding:80px 24px; }
+    /* ── SECTION BASE ── */
+    section { padding:88px 28px; }
 
     .eyebrow {
-      font-size:9px;letter-spacing:.3em;color:var(--gold);
-      text-transform:uppercase;margin-bottom:10px;
-      display:flex;align-items:center;gap:10px;
+      font-size:8px;letter-spacing:.35em;color:var(--gold);
+      text-transform:uppercase;margin-bottom:12px;
+      display:flex;align-items:center;gap:14px;
     }
-    .eyebrow::before { content:'//';color:var(--faint); }
-
-    .sec-heading {
-      font-family:var(--serif);font-style:italic;font-weight:900;
-      font-size:clamp(34px,9vw,56px);color:var(--white);
-      margin-bottom:48px;line-height:1.0;
+    .eyebrow::before {
+      content:'';display:block;width:24px;height:1px;
+      background:var(--gold);opacity:.5;
     }
 
-    /* ─── STEPS ─── */
-    #how { padding:80px 0; }
-    #how .eyebrow, #how .sec-heading { padding:0 24px; }
+    .sec-title {
+      font-family:var(--serif);font-style:italic;font-weight:300;
+      font-size:clamp(40px,10vw,68px);color:var(--white);
+      line-height:.95;margin-bottom:56px;letter-spacing:-.01em;
+    }
+    .sec-title em { font-weight:600;color:var(--gold); }
+
+    /* ── PROCESS / STEPS ── */
+    #process { padding:88px 0; }
+    #process .eyebrow,
+    #process .sec-title { padding:0 28px; }
 
     .step-list { list-style:none; }
     .step-item {
       border-bottom:1px solid var(--line);
+      transition:background .3s;
     }
     .step-item:first-child { border-top:1px solid var(--line); }
-    .step-inner {
-      display:grid;grid-template-columns:52px 1fr 28px;
-      gap:16px;align-items:start;
-      padding:22px 24px;
-    }
-    .step-idx { font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.08em;padding-top:2px; }
-    .step-text h3 { font-size:15px;font-weight:500;color:var(--white);margin-bottom:6px;letter-spacing:.02em; }
-    .step-text p { font-size:12px;color:var(--white);line-height:1.7;letter-spacing:.02em; }
-    .step-text a { color:var(--gold);text-decoration:none; }
-    .step-chev { font-size:18px;color:var(--faint);padding-top:0; }
+    .step-item:hover { background:rgba(201,151,58,0.03); }
 
-    /* ─── TERMINAL ─── */
+    .step-inner {
+      display:grid;grid-template-columns:64px 1fr 24px;
+      gap:20px;align-items:start;
+      padding:28px 28px;cursor:default;
+    }
+    .step-num {
+      font-family:var(--serif);font-style:italic;font-weight:300;
+      font-size:28px;color:var(--goldln);line-height:1;
+      padding-top:2px;
+    }
+    .step-body h3 {
+      font-family:var(--serif);font-style:italic;font-weight:400;
+      font-size:22px;color:var(--white);margin-bottom:8px;letter-spacing:.01em;
+    }
+    .step-body p {
+      font-size:12px;color:var(--dim);line-height:1.85;
+      letter-spacing:.02em;font-weight:300;
+    }
+    .step-body a { color:var(--gold);text-decoration:none; }
+    .step-arrow {
+      font-size:14px;color:var(--ghost);padding-top:4px;
+      transition:color .25s,transform .25s;
+    }
+    .step-item:hover .step-arrow { color:var(--gold);transform:translateX(3px); }
+
+    /* ── TERMINAL ── */
     .terminal {
-      background:var(--bg2);
-      border:1px solid var(--line);
-      max-width:620px;
+      background:var(--bg3);
+      border:1px solid var(--line2);
+      max-width:640px;
+      position:relative;
+      overflow:hidden;
+    }
+    .terminal::before {
+      content:'';
+      position:absolute;top:0;left:0;right:0;height:1px;
+      background:linear-gradient(90deg,transparent,var(--gold),transparent);
+      opacity:.4;
     }
     .term-bar {
-      background:#1a1a17;padding:12px 16px;
+      background:var(--bg2);
+      padding:14px 18px;
       border-bottom:1px solid var(--line);
       display:flex;align-items:center;gap:10px;
     }
-    .term-dots { display:flex;gap:6px; }
+    .term-dots { display:flex;gap:7px; }
     .term-dot { width:10px;height:10px;border-radius:50%; }
     .term-dot.r{background:#ff5f57} .term-dot.y{background:#febc2e} .term-dot.g{background:#28c840}
-    .term-title { font-size:10px;letter-spacing:.08em;color:var(--dim);margin-left:4px; }
-    .term-online {
-      margin-left:auto;display:flex;align-items:center;gap:5px;
-      font-size:9px;letter-spacing:.1em;color:var(--green);text-transform:uppercase;
+    .term-title {
+      font-size:9px;letter-spacing:.12em;color:var(--ghost);
+      margin-left:6px;text-transform:uppercase;
     }
-    .online-dot { width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+    .term-online {
+      margin-left:auto;display:flex;align-items:center;gap:6px;
+      font-size:8px;letter-spacing:.15em;color:#4ade80;text-transform:uppercase;
+    }
+    .online-dot {
+      width:5px;height:5px;background:#4ade80;border-radius:50%;
+      animation:pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-    .term-body { padding:20px 18px;display:flex;flex-direction:column;gap:0;min-height:280px; }
-    .tl { font-size:13px;line-height:1.7;letter-spacing:.02em;padding:1px 0; }
-    .tl.sys { color:var(--faint);font-size:11px;margin-bottom:4px; }
-    .tl.bot { color:var(--gold);padding-left:0; }
-    .tl.bot::before { content:'bot › ';color:var(--amber);font-weight:700; }
-    .tl.usr { color:var(--white);margin-top:12px; }
-    .tl.usr::before { content:'you › ';color:var(--green);font-weight:700; }
-    .tl.note { color:var(--dim);padding-left:40px;font-size:12px; }
-    .tspc { height:8px; }
+    .term-body {
+      padding:22px 20px;
+      display:flex;flex-direction:column;gap:0;
+      min-height:300px;
+    }
+    .tl { font-size:12px;line-height:1.75;letter-spacing:.02em;padding:2px 0;font-weight:300; }
+    .tl.sys { color:var(--ghost);font-size:10px;letter-spacing:.1em; }
+    .tl.bot { color:var(--off); }
+    .tl.bot::before { content:'arthouse › ';color:var(--gold);font-weight:500; }
+    .tl.usr { color:var(--white);margin-top:14px; }
+    .tl.usr::before { content:'you › ';color:#4ade80;font-weight:500; }
+    .tl.note { color:var(--dim);padding-left:72px;font-size:11px;font-style:italic; }
+    .tspc { height:10px; }
 
     .term-input-row {
       display:flex;align-items:center;gap:10px;
-      margin-top:16px;padding-top:14px;border-top:1px solid var(--line);
+      margin-top:20px;padding-top:16px;
+      border-top:1px solid var(--line);
     }
-    .ti-prompt { color:var(--green);font-size:13px;font-weight:700; }
-    .ti-text { font-size:13px;color:var(--faint);font-style:italic;flex:1; }
+    .ti-prompt { color:var(--gold);font-size:12px; }
+    .ti-text { font-size:11px;color:var(--ghost);font-style:italic;flex:1;letter-spacing:.04em; }
     .ti-btn {
       background:var(--gold);color:#000;
       border:none;font-family:var(--mono);
-      font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-      padding:9px 16px;cursor:pointer;text-decoration:none;
+      font-size:9px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
+      padding:10px 18px;cursor:pointer;text-decoration:none;
       display:inline-block;transition:background .2s;
       -webkit-tap-highlight-color:transparent;
     }
-    .ti-btn:active { background:var(--amber); }
+    .ti-btn:hover { background:var(--gold2); }
 
-    /* ─── MANIFESTO ─── */
-    blockquote.mani {
+    /* ── MANIFESTO ── */
+    #manifesto {
+      border-top:1px solid var(--line);
+      position:relative;overflow:hidden;
+    }
+    #manifesto::before {
+      content:'';position:absolute;
+      right:-100px;top:-100px;
+      width:500px;height:500px;
+      background:radial-gradient(ellipse,rgba(201,151,58,0.04) 0%,transparent 65%);
+      pointer-events:none;
+    }
+    .manifesto-quote {
+      font-family:var(--serif);font-style:italic;font-weight:300;
+      font-size:clamp(26px,6vw,50px);
+      line-height:1.3;color:var(--white);
+      margin-bottom:36px;letter-spacing:-.005em;
+    }
+    .manifesto-quote .hl  { color:var(--gold);font-weight:600;font-style:normal; }
+    .manifesto-quote .hl2 { color:var(--off);border-bottom:1px solid var(--goldln);padding-bottom:1px; }
+
+    .manifesto-body {
+      font-size:13px;line-height:1.95;color:var(--dim);
+      letter-spacing:.03em;max-width:520px;font-weight:300;
+      margin-bottom:40px;
+    }
+    .manifesto-body a { color:var(--gold);text-decoration:none; }
+    .manifesto-body strong { color:var(--off);font-weight:500; }
+
+    .manifesto-badges {
+      display:flex;flex-wrap:wrap;align-items:center;gap:16px;
+    }
+    .badge-gh {
+      display:inline-flex;align-items:center;gap:10px;
+      border:1px solid var(--line2);color:var(--off);
+      font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+      padding:13px 18px;text-decoration:none;
+      transition:border-color .25s,color .25s;
+    }
+    .badge-gh:hover { border-color:var(--goldln);color:var(--gold); }
+
+    /* ── SOCIAL GRID ── */
+    #socials { border-top:1px solid var(--line); }
+    .social-grid {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:1px;
+      background:var(--line);
+      border:1px solid var(--line);
+      margin-top:48px;
+    }
+    .soc-card {
+      background:var(--bg);
+      padding:28px 22px;
+      display:flex;flex-direction:column;gap:10px;
+      text-decoration:none;
+      transition:background .3s;
+      position:relative;overflow:hidden;
+    }
+    .soc-card::after {
+      content:'';
+      position:absolute;bottom:0;left:0;right:0;height:1px;
+      background:var(--gold);
+      transform:scaleX(0);transform-origin:left;
+      transition:transform .35s cubic-bezier(.16,1,.3,1);
+      opacity:.5;
+    }
+    .soc-card:hover { background:var(--bg3); }
+    .soc-card:hover::after { transform:scaleX(1); }
+    .soc-icon {
+      width:36px;height:36px;
+      display:flex;align-items:center;justify-content:center;
+      border:1px solid var(--line2);
+      color:var(--gold);font-size:14px;
+    }
+    .soc-name {
       font-family:var(--serif);font-style:italic;font-weight:400;
-      font-size:clamp(24px,5.5vw,44px);
-      line-height:1.35;color:var(--white);margin-bottom:28px;
+      font-size:17px;color:var(--white);letter-spacing:.02em;
     }
-    blockquote.mani .hl  { color:var(--gold);font-style:normal;font-weight:900; }
-    blockquote.mani .hl2 { color:var(--amber); }
-    .mani-body {
-      font-size:13px;line-height:1.9;color:var(--white);
-      letter-spacing:.03em;max-width:540px;
+    .soc-handle {
+      font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ghost);
     }
-    .mani-body a { color:var(--gold);text-decoration:none; }
+    .soc-arrow {
+      margin-top:auto;
+      font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+      color:var(--gold);opacity:0;
+      transition:opacity .25s;
+    }
+    .soc-card:hover .soc-arrow { opacity:1; }
 
-    /* ─── GOLD TICKER ─── */
-    .gold-ticker {
-      background:var(--gold);overflow:hidden;height:38px;display:flex;align-items:center;
+    /* ── GOLD TICKER BAND ── */
+    .gold-band {
+      background:var(--gold);overflow:hidden;height:36px;display:flex;align-items:center;
     }
     .gold-track {
-      display:flex;animation:ticker 16s linear infinite;white-space:nowrap;
+      display:flex;animation:ticker 18s linear infinite;white-space:nowrap;
     }
-    .gold-item { font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#000;padding:0 26px; }
+    .gold-item {
+      font-size:9px;font-weight:500;letter-spacing:.25em;
+      text-transform:uppercase;color:#000;padding:0 28px;
+    }
 
-    /* ─── BOTTOM CTA ─── */
+    /* ── BOTTOM CTA ── */
     #cta {
-      padding:80px 24px;border-top:1px solid var(--line);
-      display:flex;flex-direction:column;gap:28px;
+      padding:88px 28px;
+      border-top:1px solid var(--line);
+      display:flex;flex-direction:column;gap:32px;
+      position:relative;overflow:hidden;
     }
-    .cta-pre { font-size:9px;letter-spacing:.3em;color:var(--faint);text-transform:uppercase; }
-    .cta-h {
-      font-family:var(--serif);font-style:italic;font-weight:900;
-      font-size:clamp(40px,11vw,80px);line-height:.9;color:var(--white);
+    #cta::before {
+      content:'';position:absolute;
+      left:-200px;bottom:-200px;
+      width:700px;height:700px;
+      background:radial-gradient(ellipse,rgba(201,151,58,0.05) 0%,transparent 60%);
+      pointer-events:none;
     }
-    .cta-h span { color:var(--gold);display:block; }
-    .cta-btns { display:flex;flex-direction:column;gap:12px;max-width:340px; }
+    .cta-label {
+      font-size:8px;letter-spacing:.35em;color:var(--ghost);
+      text-transform:uppercase;
+      display:flex;align-items:center;gap:12px;
+    }
+    .cta-label::before { content:'';display:block;width:24px;height:1px;background:var(--line2); }
+    .cta-heading {
+      font-family:var(--serif);font-style:italic;font-weight:300;
+      font-size:clamp(44px,12vw,96px);line-height:.88;
+      color:var(--white);letter-spacing:-.02em;
+      position:relative;z-index:1;
+    }
+    .cta-heading span { color:var(--gold);display:block;font-weight:600; }
+    .cta-btns {
+      display:flex;flex-direction:column;gap:10px;
+      max-width:320px;position:relative;z-index:1;
+    }
 
-    /* ─── FOOTER ─── */
+    /* ── FOOTER ── */
     footer {
       border-top:1px solid var(--line);
-      padding:32px 24px;
-      display:flex;flex-direction:column;gap:20px;
+      padding:36px 28px 64px;
+      display:flex;flex-direction:column;gap:24px;
     }
-    .ft-row { display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px; }
-    .ft-logo { font-family:var(--serif);font-style:italic;font-weight:900;font-size:22px;color:var(--gold); }
-    .ft-soc { display:flex;gap:8px; }
-    .ft-soc a {
+    .ft-top {
+      display:flex;align-items:center;justify-content:space-between;
+      flex-wrap:wrap;gap:16px;
+    }
+    .ft-logo {
+      font-family:var(--serif);font-style:italic;font-weight:300;
+      font-size:24px;color:var(--white);
+    }
+    .ft-logo span { color:var(--gold); }
+    .ft-links {
+      display:flex;gap:8px;flex-wrap:wrap;
+    }
+    .ft-links a {
       display:flex;align-items:center;gap:5px;
-      border:1px solid var(--line);color:var(--dim);
-      font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
-      padding:8px 12px;text-decoration:none;transition:border-color .2s,color .2s;
+      border:1px solid var(--line);color:var(--ghost);
+      font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+      padding:8px 12px;text-decoration:none;
+      transition:border-color .2s,color .2s;
     }
-    .ft-soc a:active { border-color:var(--gold);color:var(--gold); }
-    .ft-nav { display:flex;gap:20px;flex-wrap:wrap; }
+    .ft-links a:hover { border-color:var(--goldln);color:var(--gold); }
+    .ft-nav {
+      display:flex;gap:24px;flex-wrap:wrap;
+      border-top:1px solid var(--line);padding-top:20px;
+    }
     .ft-nav a {
-      font-size:10px;letter-spacing:.15em;text-transform:uppercase;
-      color:var(--faint);text-decoration:none;
+      font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+      color:var(--ghost);text-decoration:none;transition:color .2s;
     }
-    .ft-nav a:active { color:var(--gold); }
+    .ft-nav a:hover { color:var(--gold); }
     .ft-copy {
-      font-size:9px;letter-spacing:.1em;color:var(--faint);text-transform:uppercase;
-      border-top:1px solid var(--line);padding-top:14px;
+      font-size:8px;letter-spacing:.12em;color:var(--ghost);text-transform:uppercase;
+      border-top:1px solid var(--line);padding-top:20px;
     }
 
-    /* ─── REVEAL ─── */
-    .reveal { opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.16,1,.3,1); }
+    /* ── REVEAL ── */
+    .reveal {
+      opacity:0;transform:translateY(22px);
+      transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1);
+    }
     .reveal.visible { opacity:1;transform:none; }
 
-    /* ─── DESKTOP ─── */
-    @media (min-width:768px) {
-      #hero { padding:100px 48px 80px; }
-      .hero-cta { flex-direction:row;max-width:none; }
-      .btn-main,.btn-ghost { min-width:210px; }
-      #how .eyebrow,#how .sec-heading { padding:0 48px; }
-      .step-inner { padding:24px 48px; }
+    /* ── DESKTOP ── */
+    @media(min-width:768px){
+      .museum-bar { padding:0 48px; }
+      #hero { padding:140px 48px 96px; }
+      .hero-row { flex-direction:row;align-items:flex-end;justify-content:space-between;gap:48px; }
+      .hero-cta { min-width:280px; }
+      .hero-corner { bottom:60px;right:48px; }
+      #process .eyebrow,
+      #process .sec-title { padding:0 48px; }
+      .step-inner { padding:32px 48px;grid-template-columns:80px 1fr 28px; }
       section { padding:100px 48px; }
-      footer { flex-direction:row;align-items:center;flex-wrap:wrap; }
-      .ft-copy { flex:1 1 100%; }
+      #cta { padding:100px 48px; }
+      footer { flex-direction:row;align-items:flex-start;flex-wrap:wrap; padding:40px 48px 72px; }
+      .ft-top { width:100%; }
+      .ft-nav { width:100%; }
+      .ft-copy { width:100%; }
+      .social-grid { grid-template-columns:repeat(3,1fr); }
       .cta-btns { flex-direction:row;max-width:none; }
+      .manifesto-badges { margin-top:8px; }
+    }
+    @media(min-width:1100px){
+      .social-grid { grid-template-columns:repeat(6,1fr); }
+    }
+
+    /* ── TYPEWRITER CURSOR ── */
+    .cursor {
+      display:inline-block;width:7px;height:12px;
+      background:var(--gold);
+      animation:blink 1s step-end infinite;
+      vertical-align:middle;margin-left:2px;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ── DIVIDER LINE ── */
+    .rule {
+      display:block;width:100%;height:1px;
+      background:linear-gradient(90deg,var(--goldln),transparent);
+      margin:0;
     }
   </style>
 </head>
 <body>
 
-  <!-- TOP TICKER -->
+  <!-- MUSEUM TOP BAR -->
+  <nav class="museum-bar">
+    <a href="#" class="bar-logo">art<span>house</span></a>
+    <div class="bar-nav">
+      <a href="#process">Process</a>
+      <a href="#demo">The Bot</a>
+      <a href="#manifesto">Manifesto</a>
+      <a href="#socials">Community</a>
+    </div>
+    <a href="https://t.me/arthousexbt_bot" target="_blank" class="bar-cta">Open Bot ↗</a>
+  </nav>
+
+  <!-- BOTTOM TICKER -->
   <div class="ticker-wrap">
-    <div class="ticker-label">LIVE</div>
+    <div class="ticker-label">Live</div>
     <div class="ticker-track">
       <span class="ticker-item">arthouse</span><span class="ticker-sep">✦</span>
       <span class="ticker-item">@arthousebase</span><span class="ticker-sep">✦</span>
@@ -344,7 +609,6 @@
       <span class="ticker-item">gallery &amp; art creators</span><span class="ticker-sep">✦</span>
       <span class="ticker-item">est. jan 2026</span><span class="ticker-sep">✦</span>
       <span class="ticker-item">t.me/arthousexbt_bot</span><span class="ticker-sep">✦</span>
-      <!-- duplicate for seamless -->
       <span class="ticker-item">arthouse</span><span class="ticker-sep">✦</span>
       <span class="ticker-item">@arthousebase</span><span class="ticker-sep">✦</span>
       <span class="ticker-item">pixels. patterns. paradoxes.</span><span class="ticker-sep">✦</span>
@@ -356,105 +620,107 @@
 
   <!-- HERO -->
   <section id="hero">
-    <p class="hero-prompt">
-      <span class="prompt-arrow">&gt;</span>
-      <span id="typed-text"></span><span class="cursor-blink"></span>
+    <div class="hero-glow"></div>
+    <p class="hero-label">
+      <span id="typed-text"></span><span class="cursor"></span>
     </p>
-    <h1 class="hero-title">art<span class="gold">house</span></h1>
-    <p class="hero-sub">
-      <strong>Gallery &amp; Art Creator.</strong><br>
-      Pixels. Patterns. Paradoxes.<br>
-      Drop your work — receive curatorial intelligence.
-    </p>
-    <div class="hero-cta">
-      <a href="https://t.me/arthousexbt_bot" target="_blank" class="btn-main">
-        <span>↗ Open the Bot</span><span>→</span>
-      </a>
-      <a href="#how" class="btn-ghost">
-        <span>How it works</span><span>↓</span>
-      </a>
+    <h1 class="hero-title">art<span class="accent">house</span></h1>
+    <div class="hero-row">
+      <p class="hero-desc">
+        <strong>A gallery built at the edge of algorithm and intuition.</strong><br><br>
+        Where pixels carry philosophy, patterns hold paradoxes, and every creator finds their curator.
+        Drop your work into the dialogue — the canvas awaits.
+      </p>
+      <div class="hero-cta">
+        <a href="https://t.me/arthousexbt_bot" target="_blank" class="btn-primary">
+          <span>↗ Open the Bot</span><span>→</span>
+        </a>
+        <a href="#process" class="btn-outline">
+          <span>Explore the Process</span><span>↓</span>
+        </a>
+      </div>
     </div>
     <span class="hero-corner">@arthousebase — 2026</span>
   </section>
 
-  <!-- STATS -->
-  <div class="stats-bar reveal">
-    <div class="stat">
-      <span class="stat-val">148</span>
-      <span class="stat-label">Following</span>
+  <!-- COLLECTION LINE -->
+  <div class="collection-line reveal">
+    <div class="col-item">
+      <span class="col-val">148</span>
+      <span class="col-label">Following</span>
     </div>
-    <div class="stat">
-      <span class="stat-val">69</span>
-      <span class="stat-label">Followers</span>
+    <div class="col-item">
+      <span class="col-val">69</span>
+      <span class="col-label">Collectors</span>
     </div>
-    <div class="stat">
-      <span class="stat-val">Jan</span>
-      <span class="stat-label">Est. 2026</span>
+    <div class="col-item">
+      <span class="col-val">Jan</span>
+      <span class="col-label">Est. 2026</span>
     </div>
   </div>
 
   <!-- HOW IT WORKS -->
-  <section id="how">
-    <p class="eyebrow reveal">process</p>
-    <h2 class="sec-heading reveal">how it<br><em>works.</em></h2>
+  <section id="process" style="padding-left:0;padding-right:0;">
+    <p class="eyebrow reveal">Process</p>
+    <h2 class="sec-title reveal">how the<br><em>work happens.</em></h2>
     <ul class="step-list">
       <li class="step-item reveal">
         <div class="step-inner">
-          <span class="step-idx">01.</span>
-          <div class="step-text">
-            <h3>Say hi on Telegram</h3>
-            <p>Open <a href="https://t.me/arthousexbt_bot" target="_blank">@arthousexbt_bot</a> or find <strong style="color:var(--white)">@arthousebase</strong> on X. The canvas is blank — start the dialogue.</p>
+          <span class="step-num">01</span>
+          <div class="step-body">
+            <h3>Begin the conversation</h3>
+            <p>Open <a href="https://t.me/arthousexbt_bot" target="_blank">@arthousexbt_bot</a> or find <strong>@arthousebase</strong> on X. The gallery opens the moment you speak. The canvas is blank — and it is yours.</p>
           </div>
-          <span class="step-chev">›</span>
+          <span class="step-arrow">›</span>
         </div>
       </li>
       <li class="step-item reveal">
         <div class="step-inner">
-          <span class="step-idx">02.</span>
-          <div class="step-text">
-            <h3>Share your work</h3>
-            <p>Drop artwork, collection links, or a demo. Pixels, generative patterns, conceptual pieces — all forms welcomed.</p>
+          <span class="step-num">02</span>
+          <div class="step-body">
+            <h3>Present your work</h3>
+            <p>Drop artwork, collection links, or a live demo. Pixels, generative patterns, conceptual pieces — every form finds a frame here. The gallery does not judge the medium; it listens to the intent.</p>
           </div>
-          <span class="step-chev">›</span>
+          <span class="step-arrow">›</span>
         </div>
       </li>
       <li class="step-item reveal">
         <div class="step-inner">
-          <span class="step-idx">03.</span>
-          <div class="step-text">
-            <h3>Receive curatorial feedback</h3>
-            <p>Arthouse provides contemporary context, curation notes, and community-fit analysis for your work.</p>
+          <span class="step-num">03</span>
+          <div class="step-body">
+            <h3>Receive curatorial intelligence</h3>
+            <p>Arthouse delivers contemporary context, curation notes, and community-fit analysis. Not just feedback — a new lens through which your work gains depth and direction.</p>
           </div>
-          <span class="step-chev">›</span>
+          <span class="step-arrow">›</span>
         </div>
       </li>
       <li class="step-item reveal">
         <div class="step-inner">
-          <span class="step-idx">04.</span>
-          <div class="step-text">
-            <h3>Iterate &amp; evolve</h3>
-            <p>Refine your practice. Return for more sessions. Each loop deepens the creator–canvas relationship.</p>
+          <span class="step-num">04</span>
+          <div class="step-body">
+            <h3>Iterate. Refine. Evolve.</h3>
+            <p>Return with each new iteration. Each session deepens the creator–canvas relationship. Great work is never finished; it simply moves into its next form.</p>
           </div>
-          <span class="step-chev">›</span>
+          <span class="step-arrow">›</span>
         </div>
       </li>
       <li class="step-item reveal">
         <div class="step-inner">
-          <span class="step-idx">05.</span>
-          <div class="step-text">
-            <h3>Join the creator network</h3>
-            <p>Top contributors gain featured gallery placement and introductions within the arthouse collector network.</p>
+          <span class="step-num">05</span>
+          <div class="step-body">
+            <h3>Enter the creator network</h3>
+            <p>Top contributors earn featured gallery placement and introductions within the arthouse collector network. The community is the institution.</p>
           </div>
-          <span class="step-chev">›</span>
+          <span class="step-arrow">›</span>
         </div>
       </li>
     </ul>
   </section>
 
-  <!-- TERMINAL CHAT -->
+  <!-- TERMINAL CHAT / DEMO -->
   <section id="demo">
-    <p class="eyebrow reveal">the bot</p>
-    <h2 class="sec-heading reveal">live<br><em>session.</em></h2>
+    <p class="eyebrow reveal">The Bot</p>
+    <h2 class="sec-title reveal">live<br><em>session.</em></h2>
     <div class="terminal reveal">
       <div class="term-bar">
         <div class="term-dots">
@@ -474,14 +740,14 @@
         <div class="tl usr">I'm working on a generative art collection — 1/1s with recursive patterns.</div>
         <div class="tspc"></div>
         <div class="tl bot">Recursive structures carry philosophical weight.</div>
-        <div class="tl note">Each iteration: a mirror facing a mirror. Share a preview — let's see what the pattern wants to say.</div>
+        <div class="tl note">Each iteration: a mirror facing a mirror. Share a preview — let the pattern speak.</div>
         <div class="tl usr">Here's the collection draft →</div>
         <div class="tspc"></div>
-        <div class="tl sys">// analysing... context loaded</div>
+        <div class="tl sys">// analysing context...</div>
         <div class="tl sys">// curation notes ready ✓</div>
         <div class="term-input-row">
           <span class="ti-prompt">›</span>
-          <span class="ti-text">start your session...</span>
+          <span class="ti-text">begin your session...</span>
           <a href="https://t.me/arthousexbt_bot" target="_blank" class="ti-btn">Open Bot ↗</a>
         </div>
       </div>
@@ -489,31 +755,106 @@
   </section>
 
   <!-- MANIFESTO -->
-  <section id="about" style="border-top:1px solid var(--line)">
-    <p class="eyebrow reveal">manifesto</p>
+  <section id="manifesto">
+    <p class="eyebrow reveal">Manifesto</p>
     <div class="reveal">
-      <blockquote class="mani">
-        Art lives at the edge of <span class="hl">algorithm</span> and <span class="hl2">intuition</span> — where the pixel meets the paradox.
+      <blockquote class="manifesto-quote">
+        Art lives at the intersection of <span class="hl">algorithm</span><br>
+        and <span class="hl2">intuition</span> — where the pixel<br>
+        meets its paradox.
       </blockquote>
-      <p class="mani-body">
-        Arthouse is a living gallery and creator community. Every pattern holds a philosophy. Every pixel, a position.<br><br>
-        We don't just display art — we curate the conversation around it. Drop your work into the dialogue. The gallery is authored collectively by those who dare to make something from the noise.<br><br>
-        Powered by <a href="https://t.me/arthousexbt_bot" target="_blank">@arthousexbt_bot</a> · Built on dialogue · Curated without compromise.
+      <p class="manifesto-body">
+        Arthouse is a living gallery and creator community. Every pattern holds a philosophy.
+        Every pixel, a position. Every creator, a curator in their own right.<br><br>
+        We do not merely display art — we curate the conversation that surrounds it.
+        Drop your work into the dialogue. <strong>The gallery is authored collectively</strong>
+        by those who dare to make something from the noise.<br><br>
+        Powered by <a href="https://t.me/arthousexbt_bot" target="_blank">@arthousexbt_bot</a>
+        · Built on dialogue · Curated without compromise.
       </p>
-      <div style="margin-top:32px;display:flex;flex-wrap:wrap;align-items:center;gap:20px;">
+      <div class="manifesto-badges reveal">
         <a href="https://orynth.dev/projects/arthousebot" target="_blank" rel="noopener">
-          <img src="https://orynth.dev/api/badge/arthousebot?theme=light&style=default" alt="Featured on Orynth" width="260" height="80" />
+          <img src="https://orynth.dev/api/badge/arthousebot?theme=light&style=default" alt="Featured on Orynth" width="240" height="72" />
         </a>
-        <a href="https://github.com/botlumio/arthouse" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);color:var(--white);font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:14px 20px;text-decoration:none;transition:border-color .2s,color .2s;" onmouseover="this.style.borderColor='#d4a843';this.style.color='#d4a843'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)';this.style.color='#f0ece2'">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+        <a href="https://github.com/botlumio/arthouse" target="_blank" rel="noopener" class="badge-gh">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
           github / botlumio/arthouse
         </a>
       </div>
     </div>
   </section>
 
-  <!-- GOLD TICKER -->
-  <div class="gold-ticker">
+  <!-- SOCIALS -->
+  <section id="socials">
+    <p class="eyebrow reveal">Community</p>
+    <h2 class="sec-title reveal">find us<br><em>everywhere.</em></h2>
+    <div class="social-grid reveal">
+
+      <!-- Telegram -->
+      <a href="https://t.me/arthousexbt_bot" target="_blank" class="soc-card">
+        <div class="soc-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.19 13.67l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.958.889z"/></svg>
+        </div>
+        <span class="soc-name">Telegram</span>
+        <span class="soc-handle">@arthousexbt_bot</span>
+        <span class="soc-arrow">Visit ↗</span>
+      </a>
+
+      <!-- X / Twitter -->
+      <a href="https://x.com/arthousebase" target="_blank" class="soc-card">
+        <div class="soc-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </div>
+        <span class="soc-name">X / Twitter</span>
+        <span class="soc-handle">@arthousebase</span>
+        <span class="soc-arrow">Visit ↗</span>
+      </a>
+
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/arthousebase" target="_blank" class="soc-card">
+        <div class="soc-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </div>
+        <span class="soc-name">Instagram</span>
+        <span class="soc-handle">@arthousebase</span>
+        <span class="soc-arrow">Visit ↗</span>
+      </a>
+
+      <!-- TikTok -->
+      <a href="https://www.tiktok.com/@arthousebase" target="_blank" class="soc-card">
+        <div class="soc-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.73a4.85 4.85 0 01-1.01-.04z"/></svg>
+        </div>
+        <span class="soc-name">TikTok</span>
+        <span class="soc-handle">@arthousebase</span>
+        <span class="soc-arrow">Visit ↗</span>
+      </a>
+
+      <!-- Base.app -->
+      <a href="https://base.app/profile/arthouse" target="_blank" class="soc-card">
+        <div class="soc-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+        </div>
+        <span class="soc-name">Base.app</span>
+        <span class="soc-handle">arthouse</span>
+        <span class="soc-arrow">Visit ↗</span>
+      </a>
+
+      <!-- Zora -->
+      <a href="https://zora.co/@arthousebase" target="_blank" class="soc-card">
+        <div class="soc-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8 15l8-6M8 9h8M8 15h8"/></svg>
+        </div>
+        <span class="soc-name">Zora</span>
+        <span class="soc-handle">@arthousebase</span>
+        <span class="soc-arrow">Visit ↗</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- GOLD BAND -->
+  <div class="gold-band">
     <div class="gold-track">
       <span class="gold-item">arthouse</span><span class="gold-item">✦</span>
       <span class="gold-item">pixels</span><span class="gold-item">✦</span>
@@ -521,7 +862,6 @@
       <span class="gold-item">paradoxes</span><span class="gold-item">✦</span>
       <span class="gold-item">@arthousebase</span><span class="gold-item">✦</span>
       <span class="gold-item">gallery & art creators</span><span class="gold-item">✦</span>
-      <!-- dupe -->
       <span class="gold-item">arthouse</span><span class="gold-item">✦</span>
       <span class="gold-item">pixels</span><span class="gold-item">✦</span>
       <span class="gold-item">patterns</span><span class="gold-item">✦</span>
@@ -533,13 +873,15 @@
 
   <!-- BOTTOM CTA -->
   <section id="cta">
-    <p class="cta-pre reveal">// ready to create?</p>
-    <h2 class="cta-h reveal">start now.<span>open the bot.</span></h2>
+    <p class="cta-label reveal">ready to create?</p>
+    <h2 class="cta-heading reveal">
+      start now.<span>open the bot.</span>
+    </h2>
     <div class="cta-btns reveal">
-      <a href="https://t.me/arthousexbt_bot" target="_blank" class="btn-main">
+      <a href="https://t.me/arthousexbt_bot" target="_blank" class="btn-primary">
         <span>↗ t.me/arthousexbt_bot</span><span>→</span>
       </a>
-      <a href="https://x.com/arthousebase" target="_blank" class="btn-ghost">
+      <a href="https://x.com/arthousebase" target="_blank" class="btn-outline">
         <span>@arthousebase on X</span><span>↗</span>
       </a>
     </div>
@@ -547,24 +889,30 @@
 
   <!-- FOOTER -->
   <footer>
-    <div class="ft-row">
-      <span class="ft-logo">arthouse</span>
-      <div class="ft-soc">
+    <div class="ft-top">
+      <span class="ft-logo">art<span>house</span></span>
+      <div class="ft-links">
         <a href="https://x.com/arthousebase" target="_blank">𝕏 Twitter</a>
         <a href="https://t.me/arthousexbt_bot" target="_blank">✈ Telegram</a>
+        <a href="https://www.instagram.com/arthousebase" target="_blank">◎ Instagram</a>
+        <a href="https://www.tiktok.com/@arthousebase" target="_blank">♪ TikTok</a>
+        <a href="https://base.app/profile/arthouse" target="_blank">⬡ Base</a>
+        <a href="https://zora.co/@arthousebase" target="_blank">◈ Zora</a>
       </div>
     </div>
     <nav class="ft-nav">
-      <a href="#how">Process</a>
+      <a href="#process">Process</a>
       <a href="#demo">The Bot</a>
-      <a href="#about">Manifesto</a>
+      <a href="#manifesto">Manifesto</a>
+      <a href="#socials">Community</a>
       <a href="https://t.me/arthousexbt_bot" target="_blank">Open Bot</a>
+      <a href="https://github.com/botlumio/arthouse" target="_blank">GitHub</a>
     </nav>
     <p class="ft-copy">© 2026 arthouse · gallery &amp; art creators · @arthousebase · pixels. patterns. paradoxes.</p>
   </footer>
 
   <script>
-    // Intersection observer reveal
+    // Reveal on scroll
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
@@ -573,10 +921,10 @@
           io.unobserve(e.target);
         }
       });
-    }, { threshold: 0.08 });
+    }, { threshold: 0.06 });
 
     document.querySelectorAll('.reveal').forEach((el, i) => {
-      el.dataset.d = (i % 5) * 60;
+      el.dataset.d = (i % 6) * 55;
       io.observe(el);
     });
 
@@ -586,9 +934,9 @@
     let i = 0;
     const type = () => {
       target.textContent = phrase.slice(0, i);
-      if (i++ <= phrase.length) setTimeout(type, i < 2 ? 500 : 38);
+      if (i++ <= phrase.length) setTimeout(type, i < 2 ? 600 : 36);
     };
-    setTimeout(type, 700);
+    setTimeout(type, 800);
   </script>
 </body>
 </html>
