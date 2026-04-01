@@ -435,12 +435,8 @@
     .stat-value {
       font-family:var(--serif);font-style:italic;font-weight:300;
       font-size:clamp(32px,8vw,48px);color:var(--gold);line-height:1;
-      display:flex;align-items:center;gap:8px;
     }
-    .stat-value .live-dot {
-      width:8px;height:8px;background:var(--success);border-radius:50%;
-      animation:pulse 2s infinite;
-    }
+    .stat-value .live-dot { display:none; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
     .stat-label {
       font-size:8px;letter-spacing:.25em;color:var(--ghost);text-transform:uppercase;
@@ -760,14 +756,8 @@
       border-radius:3px;color:var(--dim);white-space:nowrap;flex-shrink:0;
     }
     .soc-badge.live {
-      color:var(--success);border-color:rgba(74,222,128,.25);
-      background:rgba(74,222,128,.05);
-      display:flex;align-items:center;gap:5px;
-    }
-    .soc-badge.live::before {
-      content:'';width:5px;height:5px;
-      background:var(--success);border-radius:50%;
-      animation:pulse 2s infinite;
+      color:var(--dim);border-color:var(--line2);
+      background:transparent;
     }
 
     /* Card body */
@@ -912,6 +902,217 @@
       font-size:9px;font-weight:500;letter-spacing:.25em;
       text-transform:uppercase;color:#000;padding:0 28px;
     }
+
+    /* ── Onchain Intelligence Generator ── */
+    #generator {
+      border-top:1px solid var(--line);
+      padding:88px 28px;
+      position:relative;overflow:hidden;
+    }
+    #generator::before {
+      content:'';position:absolute;
+      right:-200px;top:-150px;
+      width:600px;height:600px;
+      background:radial-gradient(ellipse,rgba(201,151,58,0.05) 0%,transparent 65%);
+      pointer-events:none;
+    }
+    @media(min-width:768px){ #generator { padding:100px 48px; } }
+
+    .gen-gate {
+      background:var(--bg2);border:1px solid var(--line);
+      border-radius:8px;padding:28px;
+      display:flex;align-items:flex-start;gap:16px;
+      margin-bottom:32px;
+    }
+    .gen-gate-icon {
+      width:40px;height:40px;flex-shrink:0;
+      background:var(--goldlt);border:1px solid var(--goldln);
+      border-radius:8px;display:flex;align-items:center;justify-content:center;
+      color:var(--gold);font-size:16px;
+    }
+    .gen-gate-text h4 {
+      font-family:var(--serif);font-style:italic;font-size:18px;
+      color:var(--white);margin-bottom:6px;
+    }
+    .gen-gate-text p { font-size:11px;color:var(--dim);line-height:1.7;font-weight:300; }
+    .gen-gate-text a { color:var(--gold);text-decoration:none; }
+
+    .gen-form {
+      display:flex;flex-direction:column;gap:16px;
+      max-width:640px;
+    }
+    .gen-input-wrap {
+      display:flex;gap:0;
+      border:1px solid var(--line2);border-radius:4px;overflow:hidden;
+      transition:border-color .25s;
+    }
+    .gen-input-wrap:focus-within { border-color:var(--gold); }
+    .gen-prefix {
+      display:flex;align-items:center;padding:0 14px;
+      background:var(--bg2);border-right:1px solid var(--line2);
+      font-size:12px;color:var(--gold);flex-shrink:0;font-weight:500;
+    }
+    .gen-input {
+      flex:1;background:var(--bg);
+      border:none;outline:none;
+      font-family:var(--mono);font-size:12px;color:var(--white);
+      padding:14px 16px;letter-spacing:.04em;
+    }
+    .gen-input::placeholder { color:var(--ghost); }
+
+    .gen-btn {
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      background:var(--gold);color:#000;
+      border:none;cursor:pointer;
+      font-family:var(--mono);font-size:10px;font-weight:500;
+      letter-spacing:.18em;text-transform:uppercase;
+      padding:14px 22px;border-radius:4px;
+      transition:background .2s,transform .15s;
+      -webkit-tap-highlight-color:transparent;
+      position:relative;overflow:hidden;
+    }
+    .gen-btn::before {
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);
+      transform:translateX(-100%);transition:transform .6s;
+    }
+    .gen-btn:hover::before { transform:translateX(100%); }
+    .gen-btn:hover { background:var(--gold2); }
+    .gen-btn:active { transform:scale(.97); }
+    .gen-btn:disabled { opacity:.45;cursor:not-allowed; }
+    .gen-btn:disabled::before { display:none; }
+
+    .gen-status {
+      font-size:10px;letter-spacing:.1em;color:var(--dim);
+      display:flex;align-items:center;gap:8px;
+      min-height:20px;
+    }
+    .gen-status .dot {
+      width:6px;height:6px;border-radius:50%;
+      background:var(--ghost);flex-shrink:0;
+    }
+    .gen-status.loading .dot { background:var(--gold);animation:pulse 1s infinite; }
+    .gen-status.success .dot { background:var(--success); }
+    .gen-status.error .dot { background:var(--error); }
+
+    /* Report output */
+    .gen-report {
+      display:none;
+      margin-top:40px;
+      border:1px solid var(--line);border-radius:8px;
+      overflow:hidden;
+      animation:fadeUp .6s cubic-bezier(.16,1,.3,1) forwards;
+    }
+    .gen-report.visible { display:block; }
+    @keyframes fadeUp {
+      from { opacity:0;transform:translateY(16px); }
+      to   { opacity:1;transform:translateY(0); }
+    }
+
+    .report-header {
+      background:var(--bg2);
+      padding:20px 24px;
+      border-bottom:1px solid var(--line);
+      display:flex;align-items:center;justify-content:space-between;
+      flex-wrap:wrap;gap:12px;
+    }
+    .report-title {
+      font-family:var(--serif);font-style:italic;font-size:18px;
+      color:var(--white);display:flex;align-items:center;gap:10px;
+    }
+    .report-title span { color:var(--gold); }
+    .report-stamp {
+      font-size:8px;letter-spacing:.18em;text-transform:uppercase;
+      color:var(--ghost);display:flex;align-items:center;gap:6px;
+    }
+    .report-stamp::before {
+      content:'';width:5px;height:5px;border-radius:50%;
+      background:var(--success);
+    }
+
+    .report-grid {
+      display:grid;gap:1px;background:var(--line);
+    }
+    @media(min-width:640px){ .report-grid { grid-template-columns:1fr 1fr; } }
+
+    .report-cell {
+      background:var(--bg);padding:20px 24px;
+    }
+    .report-cell-label {
+      font-size:8px;letter-spacing:.25em;text-transform:uppercase;
+      color:var(--ghost);margin-bottom:10px;
+    }
+    .report-cell-val {
+      font-family:var(--serif);font-style:italic;
+      font-size:28px;color:var(--gold);font-weight:300;line-height:1;
+    }
+    .report-cell-sub {
+      font-size:10px;color:var(--dim);margin-top:4px;letter-spacing:.04em;
+    }
+
+    .report-score-bar {
+      height:3px;background:var(--line);border-radius:2px;
+      margin-top:10px;overflow:hidden;
+    }
+    .report-score-fill {
+      height:100%;background:var(--gold);border-radius:2px;
+      transition:width 1.2s cubic-bezier(.16,1,.3,1);
+      width:0%;
+    }
+
+    .report-narrative {
+      padding:24px;background:var(--bg);
+      border-top:1px solid var(--line);
+    }
+    .report-narrative-label {
+      font-size:8px;letter-spacing:.25em;text-transform:uppercase;
+      color:var(--gold);margin-bottom:14px;
+      display:flex;align-items:center;gap:10px;
+    }
+    .report-narrative-label::after {
+      content:'';flex:1;height:1px;background:var(--goldln);opacity:.4;
+    }
+    .report-narrative-text {
+      font-family:var(--serif);font-style:italic;font-weight:300;
+      font-size:clamp(15px,3vw,18px);color:var(--off);
+      line-height:1.85;letter-spacing:.01em;
+    }
+
+    .report-footer {
+      padding:14px 24px;
+      border-top:1px solid var(--line);
+      background:var(--bg2);
+      display:flex;align-items:center;justify-content:space-between;
+      flex-wrap:wrap;gap:8px;
+    }
+    .report-hash {
+      font-size:9px;color:var(--ghost);font-family:var(--mono);letter-spacing:.06em;
+    }
+    .report-cta {
+      font-size:9px;letter-spacing:.16em;text-transform:uppercase;
+      color:var(--gold);text-decoration:none;
+      transition:opacity .2s;
+    }
+    .report-cta:hover { opacity:.7; }
+
+    /* Token-gate locked state */
+    .gen-locked {
+      display:none;
+      flex-direction:column;align-items:center;
+      text-align:center;padding:48px 24px;gap:16px;
+      background:var(--bg2);border:1px solid var(--line);border-radius:8px;
+    }
+    .gen-locked.visible { display:flex; }
+    .gen-locked-icon {
+      width:56px;height:56px;
+      background:var(--goldlt);border:1px solid var(--goldln);
+      border-radius:50%;display:flex;align-items:center;justify-content:center;
+      font-size:22px;color:var(--gold);
+    }
+    .gen-locked h3 {
+      font-family:var(--serif);font-style:italic;font-size:22px;color:var(--white);
+    }
+    .gen-locked p { font-size:12px;color:var(--dim);line-height:1.7;max-width:340px; }
 
     /* CTA Section */
     #cta {
@@ -1730,7 +1931,7 @@
   </div>
 
   <!-- CTA -->
-  <section id="cta">
+  <section id="cta" style="display:none">
     <p class="cta-label reveal">the agent is on-chain. are you?</p>
     <h2 class="cta-heading reveal">
       submit your work.<span>start curation.</span>
@@ -1751,7 +1952,98 @@
 
   </main>
 
-  <!-- Footer -->
+  <!-- Onchain Intelligence Generator -->
+  <section id="generator">
+    <p class="eyebrow reveal">Token-Gated Feature</p>
+    <h2 class="sec-title reveal">onchain<br><em>intelligence.</em></h2>
+
+    <!-- Gate notice -->
+    <div class="gen-gate reveal">
+      <div class="gen-gate-icon">◈</div>
+      <div class="gen-gate-text">
+        <h4>Collector Intelligence — Powered by Arthouse</h4>
+        <p>Enter any X username. Arthouse resolves their wallet from bio, analyzes their onchain activity on Base, and returns a curatorial report written in the Arthouse voice.<br>
+        Access requires holding Arthouse token on <a href="https://howdy.chat/launchpad/0xb93a3f20a11095b8858b560262cbc25fe3591789" target="_blank" rel="noopener noreferrer">Howdy ↗</a></p>
+      </div>
+    </div>
+
+    <!-- Locked state (shown when wallet not connected or no token) -->
+    <div class="gen-locked" id="genLocked">
+      <div class="gen-locked-icon">🔒</div>
+      <h3>Token Required</h3>
+      <p>Connect your wallet and hold at least 1 Arthouse token on Howdy to unlock Collector Intelligence.</p>
+      <button class="gen-btn" onclick="openWalletModal()" style="margin-top:8px;">
+        <span>Connect Wallet</span><span>◈</span>
+      </button>
+    </div>
+
+    <!-- Generator form (shown when token verified) -->
+    <div class="gen-form reveal" id="genForm">
+      <div class="gen-input-wrap">
+        <span class="gen-prefix">@</span>
+        <input
+          class="gen-input"
+          id="genUsername"
+          type="text"
+          placeholder="username"
+          autocomplete="off"
+          autocorrect="off"
+          spellcheck="false"
+          maxlength="50"
+        />
+      </div>
+      <button class="gen-btn" id="genBtn" onclick="runAnalysis()">
+        <span>Generate Curatorial Report</span><span>→</span>
+      </button>
+      <div class="gen-status" id="genStatus">
+        <span class="dot"></span>
+        <span id="genStatusText">Ready — enter an X username above</span>
+      </div>
+    </div>
+
+    <!-- Report output -->
+    <div class="gen-report" id="genReport">
+      <div class="report-header">
+        <div class="report-title">Collector Report — <span id="rptUsername">@username</span></div>
+        <div class="report-stamp">Arthouse Intelligence · Base L2</div>
+      </div>
+      <div class="report-grid">
+        <div class="report-cell">
+          <div class="report-cell-label">Onchain Transactions</div>
+          <div class="report-cell-val" id="rptTx">—</div>
+          <div class="report-cell-sub" id="rptTxSub">Base mainnet</div>
+          <div class="report-score-bar"><div class="report-score-fill" id="rptTxBar"></div></div>
+        </div>
+        <div class="report-cell">
+          <div class="report-cell-label">NFT Holdings (Base)</div>
+          <div class="report-cell-val" id="rptNft">—</div>
+          <div class="report-cell-sub" id="rptNftSub">Total tokens</div>
+          <div class="report-score-bar"><div class="report-score-fill" id="rptNftBar"></div></div>
+        </div>
+        <div class="report-cell">
+          <div class="report-cell-label">ETH Balance</div>
+          <div class="report-cell-val" id="rptBal">—</div>
+          <div class="report-cell-sub">Base mainnet</div>
+        </div>
+        <div class="report-cell">
+          <div class="report-cell-label">Collector Score</div>
+          <div class="report-cell-val" id="rptScore">—</div>
+          <div class="report-cell-sub" id="rptScoreSub">Arthouse rating</div>
+          <div class="report-score-bar"><div class="report-score-fill" id="rptScoreBar"></div></div>
+        </div>
+      </div>
+      <div class="report-narrative">
+        <div class="report-narrative-label">Curatorial Analysis</div>
+        <div class="report-narrative-text" id="rptNarrative">—</div>
+      </div>
+      <div class="report-footer">
+        <span class="report-hash" id="rptWallet">wallet: —</span>
+        <a href="https://t.me/arthousebase_bot" target="_blank" rel="noopener noreferrer" class="report-cta">Submit your art to Arthouse ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
   <footer>
     <div class="ft-top">
       <span class="ft-logo">art<span>house</span></span>
@@ -1900,18 +2192,6 @@
 
     // Live Stats Simulation
     function updateStats() {
-      const following = document.getElementById('statFollowing');
-      const collectors = document.getElementById('statCollectors');
-      const curated = document.getElementById('statCurated');
-      const volume = document.getElementById('statVolume');
-      
-      // Simulate small fluctuations
-      setInterval(() => {
-        const base = 148;
-        const variation = Math.floor(Math.random() * 5) - 2;
-        following.textContent = base + variation;
-      }, 5000);
-      
       setInterval(() => {
         const gas = (Math.random() * 0.002 + 0.0005).toFixed(3);
         document.getElementById('baseGas').textContent = gas + ' Gwei';
@@ -1930,6 +2210,101 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeWalletModal();
     });
+
+    // ── Onchain Intelligence Generator ──
+    // Token-gate state: show form by default (Vercel API will enforce real check)
+    // In production, swap this with actual token balance check via /api/check-token
+    let walletConnected = false;
+
+    function updateGeneratorGate() {
+      const locked = document.getElementById('genLocked');
+      const form   = document.getElementById('genForm');
+      if (walletConnected) {
+        locked.classList.remove('visible');
+        form.style.display = 'flex';
+      } else {
+        locked.classList.add('visible');
+        form.style.display = 'none';
+      }
+    }
+
+    // Hook wallet connect to also update generator gate
+    const _origMetaMask = connectMetaMask;
+    connectMetaMask = function() { _origMetaMask(); walletConnected = true; updateGeneratorGate(); };
+    const _origWC = connectWalletConnect;
+    connectWalletConnect = function() { _origWC(); walletConnected = true; updateGeneratorGate(); };
+    const _origCB = connectCoinbase;
+    connectCoinbase = function() { _origCB(); walletConnected = true; updateGeneratorGate(); };
+
+    updateGeneratorGate();
+
+    // Allow Enter key in input
+    document.getElementById('genUsername').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') runAnalysis();
+    });
+
+    function setStatus(msg, state = '') {
+      const el = document.getElementById('genStatus');
+      const txt = document.getElementById('genStatusText');
+      el.className = 'gen-status ' + state;
+      txt.textContent = msg;
+    }
+
+    async function runAnalysis() {
+      const username = document.getElementById('genUsername').value.replace(/^@/, '').trim();
+      if (!username) { setStatus('Enter an X username first.', 'error'); return; }
+
+      const btn = document.getElementById('genBtn');
+      btn.disabled = true;
+      document.getElementById('genReport').classList.remove('visible');
+      setStatus('Fetching X profile…', 'loading');
+
+      try {
+        const res = await fetch('/api/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username })
+        });
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.error || 'API error ' + res.status);
+        }
+
+        const data = await res.json();
+        renderReport(username, data);
+        setStatus('Report generated.', 'success');
+
+      } catch (err) {
+        setStatus('Error: ' + err.message, 'error');
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function renderReport(username, d) {
+      document.getElementById('rptUsername').textContent = '@' + username;
+      document.getElementById('rptWallet').textContent  = 'wallet: ' + (d.wallet || 'not found in bio');
+      document.getElementById('rptTx').textContent   = d.txCount  != null ? d.txCount.toLocaleString()  : '—';
+      document.getElementById('rptNft').textContent  = d.nftCount != null ? d.nftCount.toLocaleString() : '—';
+      document.getElementById('rptBal').textContent  = d.ethBal   != null ? 'Ξ ' + d.ethBal             : '—';
+      document.getElementById('rptScore').textContent     = d.score    != null ? d.score + ' / 10'      : '—';
+      document.getElementById('rptScoreSub').textContent  = d.scoreLabel || 'Arthouse rating';
+      document.getElementById('rptNarrative').textContent = d.narrative || '—';
+
+      // Score bars (animate after render)
+      setTimeout(() => {
+        const txPct    = d.txCount  ? Math.min(100, (d.txCount / 500)   * 100) : 0;
+        const nftPct   = d.nftCount ? Math.min(100, (d.nftCount / 50)   * 100) : 0;
+        const scorePct = d.score    ? (d.score / 10) * 100 : 0;
+        document.getElementById('rptTxBar').style.width    = txPct    + '%';
+        document.getElementById('rptNftBar').style.width   = nftPct   + '%';
+        document.getElementById('rptScoreBar').style.width = scorePct + '%';
+      }, 80);
+
+      document.getElementById('genReport').classList.add('visible');
+      document.getElementById('genReport').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   </script>
 </body>
 </html>
