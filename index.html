@@ -708,13 +708,20 @@
       border:1px solid var(--line);
       margin-top:48px;
     }
+    @media(min-width:1024px){
+      .social-grid { grid-template-columns:1fr 1fr 1fr; }
+      .soc-card--wide { grid-column:span 2; }
+      .soc-card--zora { grid-row:span 2; }
+    }
+
+    /* Base card */
     .soc-card {
       background:var(--bg);
-      padding:28px 22px;
-      display:flex;flex-direction:column;gap:10px;
+      display:flex;flex-direction:column;
       text-decoration:none;
       transition:background .3s;
       position:relative;overflow:hidden;
+      min-height:210px;
     }
     .soc-card::after {
       content:'';
@@ -726,26 +733,173 @@
     }
     .soc-card:hover { background:var(--bg3); }
     .soc-card:hover::after { transform:scaleX(1); }
+
+    /* Card header */
+    .soc-header {
+      display:flex;align-items:center;gap:10px;
+      padding:14px 18px 12px;
+      border-bottom:1px solid var(--line);
+      flex-shrink:0;
+    }
     .soc-icon {
-      width:36px;height:36px;
+      width:32px;height:32px;
       display:flex;align-items:center;justify-content:center;
       border:1px solid var(--line2);
-      color:var(--gold);font-size:14px;border-radius:6px;
+      color:var(--gold);border-radius:6px;flex-shrink:0;
     }
+    .soc-meta { display:flex;flex-direction:column;gap:1px;flex:1;min-width:0; }
     .soc-name {
       font-family:var(--serif);font-style:italic;font-weight:400;
-      font-size:17px;color:var(--white);letter-spacing:.02em;
+      font-size:15px;color:var(--white);letter-spacing:.02em;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
     }
-    .soc-handle {
-      font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ghost);
+    .soc-handle { font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--ghost); }
+    .soc-badge {
+      font-size:8px;letter-spacing:.12em;text-transform:uppercase;
+      padding:3px 8px;border:1px solid var(--line2);
+      border-radius:3px;color:var(--dim);white-space:nowrap;flex-shrink:0;
     }
-    .soc-arrow {
-      margin-top:auto;
-      font-size:9px;letter-spacing:.18em;text-transform:uppercase;
-      color:var(--gold);opacity:0;
-      transition:opacity .25s;
+    .soc-badge.live {
+      color:var(--success);border-color:rgba(74,222,128,.25);
+      background:rgba(74,222,128,.05);
+      display:flex;align-items:center;gap:5px;
     }
-    .soc-card:hover .soc-arrow { opacity:1; }
+    .soc-badge.live::before {
+      content:'';width:5px;height:5px;
+      background:var(--success);border-radius:50%;
+      animation:pulse 2s infinite;
+    }
+
+    /* Card body */
+    .soc-body {
+      padding:16px 18px 18px;
+      display:flex;flex-direction:column;gap:11px;
+      flex:1;
+    }
+    .soc-footer {
+      padding:10px 18px;
+      border-top:1px solid var(--line);
+      display:flex;align-items:center;justify-content:space-between;
+      flex-shrink:0;
+    }
+    .soc-footer-link {
+      font-size:9px;letter-spacing:.16em;text-transform:uppercase;
+      color:var(--gold);opacity:0;transition:opacity .25s;
+    }
+    .soc-card:hover .soc-footer-link { opacity:1; }
+    .soc-pill {
+      font-size:8px;letter-spacing:.1em;color:var(--dim);
+      background:var(--bg3);border:1px solid var(--line);
+      padding:3px 10px;border-radius:20px;
+    }
+
+    /* Twitter embed */
+    .soc-card--wide .soc-body { padding:0;overflow:hidden; }
+    .tweet-wrap {
+      width:100%;overflow-y:auto;max-height:320px;
+      padding:16px 18px;
+      scrollbar-width:thin;scrollbar-color:var(--line2) transparent;
+    }
+
+    /* Telegram */
+    .tg-stats {
+      display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+      background:var(--line);border:1px solid var(--line);
+      border-radius:4px;overflow:hidden;
+    }
+    .tg-stat {
+      background:var(--bg2);padding:10px 8px;
+      display:flex;flex-direction:column;gap:2px;align-items:center;
+    }
+    .tg-stat-val { font-family:var(--serif);font-style:italic;font-size:20px;color:var(--gold);font-weight:300; }
+    .tg-stat-lbl { font-size:8px;letter-spacing:.12em;color:var(--ghost);text-transform:uppercase; }
+    .tg-message {
+      background:var(--bg2);border:1px solid var(--line);
+      border-radius:4px;padding:10px 12px;
+      font-size:11px;color:var(--off);line-height:1.7;font-weight:300;
+      position:relative;
+    }
+    .tg-message::before {
+      content:'';position:absolute;top:0;left:0;bottom:0;width:2px;
+      background:var(--gold);border-radius:2px 0 0 2px;opacity:.5;
+    }
+    .tg-from { font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;font-weight:500; }
+    .tg-time { color:var(--ghost);font-size:9px; }
+
+    /* Instagram */
+    .ig-post {
+      aspect-ratio:1;background:var(--bg3);border-radius:4px;
+      overflow:hidden;position:relative;
+    }
+    .ig-post img {
+      width:100%;height:100%;object-fit:cover;
+      filter:grayscale(20%);transition:filter .4s,transform .5s;
+    }
+    .soc-card:hover .ig-post img { filter:grayscale(0%);transform:scale(1.04); }
+    .ig-overlay {
+      position:absolute;inset:0;
+      background:linear-gradient(transparent 50%,rgba(0,0,0,.75));
+      display:flex;flex-direction:column;justify-content:flex-end;
+      padding:12px;
+    }
+    .ig-caption { font-size:10px;color:var(--off);line-height:1.6;font-weight:300; }
+    .ig-caption strong { color:var(--gold);font-weight:500; }
+    .ig-actions { display:flex;gap:12px;margin-top:6px;font-size:9px;color:var(--dim); }
+
+    /* TikTok */
+    .tt-row { display:flex;gap:12px;align-items:flex-start; }
+    .tt-thumb {
+      width:72px;flex-shrink:0;
+      aspect-ratio:9/16;max-height:200px;
+      border-radius:4px;overflow:hidden;
+      background:var(--bg3);position:relative;
+    }
+    .tt-thumb img { width:100%;height:100%;object-fit:cover;filter:grayscale(20%);transition:filter .4s; }
+    .soc-card:hover .tt-thumb img { filter:grayscale(0%); }
+    .tt-play {
+      position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+      width:28px;height:28px;background:rgba(255,255,255,.15);border-radius:50%;
+      display:flex;align-items:center;justify-content:center;font-size:10px;
+    }
+    .tt-info { display:flex;flex-direction:column;gap:7px;flex:1;padding-top:2px; }
+    .tt-desc { font-size:11px;color:var(--off);line-height:1.6;font-weight:300; }
+    .tt-views { font-size:9px;color:var(--dim);letter-spacing:.08em; }
+    .tt-tags { font-size:9px;color:var(--ghost);line-height:1.5; }
+
+    /* Zora */
+    .soc-card--zora { min-height:340px; }
+    .soc-card--zora .soc-body { padding:0;flex:1; }
+    .zora-embed { width:100%;flex:1;border:none;display:block;min-height:280px;background:var(--bg3); }
+
+    /* Base.app */
+    .base-stats {
+      display:grid;grid-template-columns:1fr 1fr;gap:1px;
+      background:var(--line);border:1px solid var(--line);
+      border-radius:4px;overflow:hidden;
+    }
+    .base-stat { background:var(--bg2);padding:12px 12px;display:flex;flex-direction:column;gap:2px; }
+    .base-stat-val { font-family:var(--serif);font-style:italic;font-size:20px;color:var(--gold);font-weight:300;line-height:1; }
+    .base-stat-lbl { font-size:8px;letter-spacing:.12em;color:var(--ghost);text-transform:uppercase; }
+    .base-tx { font-size:10px;color:var(--dim);line-height:1.6;font-weight:300; }
+    .base-tx code { font-family:var(--mono);font-size:9px;color:var(--gold);background:var(--goldlt);padding:1px 5px;border-radius:3px; }
+
+    /* Howdy */
+    .howdy-msg { display:flex;gap:9px;align-items:flex-start; }
+    .howdy-av {
+      width:28px;height:28px;border-radius:50%;
+      background:var(--goldlt);border:1px solid var(--goldln);
+      display:flex;align-items:center;justify-content:center;
+      font-family:var(--serif);font-style:italic;font-size:12px;
+      color:var(--gold);flex-shrink:0;
+    }
+    .howdy-bubble {
+      background:var(--bg2);border:1px solid var(--line);
+      border-radius:0 6px 6px 6px;
+      padding:8px 11px;font-size:11px;color:var(--off);
+      line-height:1.65;font-weight:300;
+    }
+    .howdy-bubble strong { color:var(--gold);font-weight:500; }
+    .howdy-time { font-size:9px;color:var(--ghost);margin-top:3px; }
 
     /* Gold Band */
     .gold-band {
@@ -831,14 +985,7 @@
       font-size:8px;letter-spacing:.12em;color:var(--ghost);text-transform:uppercase;
       border-top:1px solid var(--line);padding-top:20px;
     }
-    .ft-badge {
-      margin-top:20px;
-      display:flex;justify-content:center;
-      opacity:.35;
-      transition:opacity .3s;
-    }
-    .ft-badge:hover { opacity:.7; }
-    .ft-badge img { height:20px;width:auto;display:block; }
+
 
     /* Focus Styles */
     a:focus-visible, button:focus-visible {
@@ -888,7 +1035,7 @@
       .bar-nav { display:flex; }
     }
     @media(min-width:1100px){
-      .social-grid { grid-template-columns:repeat(7,1fr); }
+      /* social grid handled separately */
     }
 
     /* Cursor */
@@ -1184,67 +1331,245 @@
     <h2 class="sec-title reveal">find us<br><em>everywhere.</em></h2>
     <div class="social-grid reveal">
 
+      <!-- ① TWITTER/X — live embed, spans 2 cols desktop -->
+      <div class="soc-card soc-card--wide">
+        <div class="soc-header">
+          <div class="soc-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </div>
+          <div class="soc-meta">
+            <span class="soc-name">X / Twitter</span>
+            <span class="soc-handle">@arthousebase</span>
+          </div>
+          <span class="soc-badge live">live</span>
+        </div>
+        <div class="soc-body">
+          <div class="tweet-wrap">
+            <!-- Replace with your actual pinned tweet embed from publish.twitter.com -->
+            <blockquote class="twitter-tweet" data-theme="dark" data-dnt="true" data-lang="en">
+              <p lang="en" dir="ltr">
+                Arthouse is now live on Base L2 — the first on-chain generative art curation agent.<br><br>
+                Submit your 1/1. Get a cryptographically signed curation report.<br>
+                Visual paradox analysis · Recursive depth scoring · Collector-fit intelligence.<br><br>
+                The canvas is never finished — it is minted. ◈
+              </p>
+              &mdash; arthouse (@arthousebase)
+            </blockquote>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+          </div>
+        </div>
+        <div class="soc-footer">
+          <a href="https://x.com/arthousebase" target="_blank" rel="noopener noreferrer" class="soc-footer-link">View all posts ↗</a>
+          <span class="soc-pill" id="statFollowing2">148 followers</span>
+        </div>
+      </div>
+
+      <!-- ② ZORA — iframe embed, spans 2 rows desktop -->
+      <div class="soc-card soc-card--zora">
+        <div class="soc-header">
+          <div class="soc-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8 15l8-6M8 9h8M8 15h8"/></svg>
+          </div>
+          <div class="soc-meta">
+            <span class="soc-name">Zora</span>
+            <span class="soc-handle">@arthousebase</span>
+          </div>
+          <span class="soc-badge live">on-chain</span>
+        </div>
+        <div class="soc-body">
+          <iframe
+            class="zora-embed"
+            src="https://zora.co/@arthousebase"
+            title="Arthouse on Zora"
+            loading="lazy"
+            sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+          ></iframe>
+        </div>
+        <div class="soc-footer">
+          <a href="https://zora.co/@arthousebase" target="_blank" rel="noopener noreferrer" class="soc-footer-link">View collection ↗</a>
+          <span class="soc-pill">◈ Zora Protocol</span>
+        </div>
+      </div>
+
+      <!-- ③ TELEGRAM — activity preview -->
       <a href="https://t.me/arthousebase_bot" target="_blank" rel="noopener noreferrer" class="soc-card">
-        <div class="soc-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.19 13.67l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.958.889z"/></svg>
+        <div class="soc-header">
+          <div class="soc-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.19 13.67l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.958.889z"/></svg>
+          </div>
+          <div class="soc-meta">
+            <span class="soc-name">Telegram</span>
+            <span class="soc-handle">@arthousebase_bot</span>
+          </div>
+          <span class="soc-badge live">online</span>
         </div>
-        <span class="soc-name">Telegram</span>
-        <span class="soc-handle">@arthousebase_bot</span>
-        <span class="soc-arrow">Visit ↗</span>
+        <div class="soc-body">
+          <div class="tg-stats">
+            <div class="tg-stat">
+              <span class="tg-stat-val">148</span>
+              <span class="tg-stat-lbl">Users</span>
+            </div>
+            <div class="tg-stat">
+              <span class="tg-stat-val">312</span>
+              <span class="tg-stat-lbl">Reports</span>
+            </div>
+            <div class="tg-stat">
+              <span class="tg-stat-val">24/7</span>
+              <span class="tg-stat-lbl">Active</span>
+            </div>
+          </div>
+          <div class="tg-message">
+            <div class="tg-from">arthouse › just now</div>
+            Arthouse online. Submit a work, mint link, or IPFS hash — receive a verified on-chain curation report.
+            <div class="tg-time">Base L2 · block 18472931</div>
+          </div>
+        </div>
+        <div class="soc-footer">
+          <span class="soc-footer-link">Start session ↗</span>
+          <span class="soc-pill">✈ Telegram</span>
+        </div>
       </a>
 
-      <a href="https://x.com/arthousebase" target="_blank" rel="noopener noreferrer" class="soc-card">
-        <div class="soc-icon">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </div>
-        <span class="soc-name">X / Twitter</span>
-        <span class="soc-handle">@arthousebase</span>
-        <span class="soc-arrow">Visit ↗</span>
-      </a>
-
+      <!-- ④ INSTAGRAM — last post mockup -->
       <a href="https://www.instagram.com/arthousebase" target="_blank" rel="noopener noreferrer" class="soc-card">
-        <div class="soc-icon">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        <div class="soc-header">
+          <div class="soc-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </div>
+          <div class="soc-meta">
+            <span class="soc-name">Instagram</span>
+            <span class="soc-handle">@arthousebase</span>
+          </div>
+          <span class="soc-badge">2h ago</span>
         </div>
-        <span class="soc-name">Instagram</span>
-        <span class="soc-handle">@arthousebase</span>
-        <span class="soc-arrow">Visit ↗</span>
+        <div class="soc-body">
+          <div class="ig-post">
+            <img src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=600&h=600&fit=crop" alt="Latest Instagram post" loading="lazy" />
+            <div class="ig-overlay">
+              <div class="ig-caption">
+                <strong>Recursive Noise #044</strong> — on-chain curation report issued. Paradox score: 8.4 · Collector-fit: HIGH ◈
+              </div>
+              <div class="ig-actions">
+                <span>♥ 214</span>
+                <span>💬 18</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="soc-footer">
+          <span class="soc-footer-link">View profile ↗</span>
+          <span class="soc-pill">◎ Instagram</span>
+        </div>
       </a>
 
+      <!-- ⑤ TIKTOK — video preview -->
       <a href="https://www.tiktok.com/@arthousebase" target="_blank" rel="noopener noreferrer" class="soc-card">
-        <div class="soc-icon">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.73a4.85 4.85 0 01-1.01-.04z"/></svg>
+        <div class="soc-header">
+          <div class="soc-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.73a4.85 4.85 0 01-1.01-.04z"/></svg>
+          </div>
+          <div class="soc-meta">
+            <span class="soc-name">TikTok</span>
+            <span class="soc-handle">@arthousebase</span>
+          </div>
+          <span class="soc-badge">latest</span>
         </div>
-        <span class="soc-name">TikTok</span>
-        <span class="soc-handle">@arthousebase</span>
-        <span class="soc-arrow">Visit ↗</span>
+        <div class="soc-body">
+          <div class="tt-row">
+            <div class="tt-thumb">
+              <img src="https://images.unsplash.com/photo-1614851099511-773084f6911d?w=300&h=533&fit=crop" alt="Latest TikTok" loading="lazy" />
+              <div class="tt-play">▶</div>
+            </div>
+            <div class="tt-info">
+              <div class="tt-desc">Watch how Arthouse analyzes generative art on-chain — recursive depth scan, live on Base L2.</div>
+              <div class="tt-views">👁 4.2k views · ♥ 312</div>
+              <div class="tt-tags">#generativeart #nft #basenetwork #AIart</div>
+            </div>
+          </div>
+        </div>
+        <div class="soc-footer">
+          <span class="soc-footer-link">View videos ↗</span>
+          <span class="soc-pill">♪ TikTok</span>
+        </div>
       </a>
 
+      <!-- ⑥ BASE.APP — on-chain stats -->
       <a href="https://base.app/profile/arthouse" target="_blank" rel="noopener noreferrer" class="soc-card">
-        <div class="soc-icon">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+        <div class="soc-header">
+          <div class="soc-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8.5 12.5l2.5 2.5 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="soc-meta">
+            <span class="soc-name">Base.app</span>
+            <span class="soc-handle">arthouse · Base L2</span>
+          </div>
+          <span class="soc-badge live">verified</span>
         </div>
-        <span class="soc-name">Base.app</span>
-        <span class="soc-handle">arthouse</span>
-        <span class="soc-arrow">Visit ↗</span>
+        <div class="soc-body">
+          <div class="base-stats">
+            <div class="base-stat">
+              <span class="base-stat-val">312</span>
+              <span class="base-stat-lbl">Reports minted</span>
+            </div>
+            <div class="base-stat">
+              <span class="base-stat-val">4.7Ξ</span>
+              <span class="base-stat-lbl">Vol. facilitated</span>
+            </div>
+            <div class="base-stat">
+              <span class="base-stat-val">148</span>
+              <span class="base-stat-lbl">Collectors</span>
+            </div>
+            <div class="base-stat">
+              <span class="base-stat-val">0.03</span>
+              <span class="base-stat-lbl">Avg gas (Gwei)</span>
+            </div>
+          </div>
+          <div class="base-tx">
+            Latest tx: <code>0x8f3...2a1</code> · Curation report #312 minted · 2 min ago
+          </div>
+        </div>
+        <div class="soc-footer">
+          <span class="soc-footer-link">View on Base ↗</span>
+          <span class="soc-pill">⬡ Base L2</span>
+        </div>
       </a>
 
-      <a href="https://zora.co/@arthousebase" target="_blank" rel="noopener noreferrer" class="soc-card">
-        <div class="soc-icon">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8 15l8-6M8 9h8M8 15h8"/></svg>
-        </div>
-        <span class="soc-name">Zora</span>
-        <span class="soc-handle">@arthousebase</span>
-        <span class="soc-arrow">Visit ↗</span>
-      </a>
-
+      <!-- ⑦ HOWDY — community chat preview -->
       <a href="https://howdy.chat/launchpad/0xb93a3f20a11095b8858b560262cbc25fe3591789" target="_blank" rel="noopener noreferrer" class="soc-card">
-        <div class="soc-icon">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h.01M12 10h.01M16 10h.01" stroke-width="2"/></svg>
+        <div class="soc-header">
+          <div class="soc-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h.01M12 10h.01M16 10h.01" stroke-width="2"/></svg>
+          </div>
+          <div class="soc-meta">
+            <span class="soc-name">Howdy</span>
+            <span class="soc-handle">@arthousebase</span>
+          </div>
+          <span class="soc-badge live">3 online</span>
         </div>
-        <span class="soc-name">Howdy</span>
-        <span class="soc-handle">@arthousebase</span>
-        <span class="soc-arrow">Visit ↗</span>
+        <div class="soc-body" style="gap:8px;">
+          <div class="howdy-msg">
+            <div class="howdy-av">a</div>
+            <div>
+              <div class="howdy-bubble">
+                <strong>collector.eth</strong> just submitted <strong>Entropy Field #31</strong> — recursive depth 7.8, paradox score incoming ⚡
+              </div>
+              <div class="howdy-time">2 min ago</div>
+            </div>
+          </div>
+          <div class="howdy-msg">
+            <div class="howdy-av" style="background:rgba(96,165,250,.08);border-color:rgba(96,165,250,.25);color:#60a5fa;">k</div>
+            <div>
+              <div class="howdy-bubble">
+                congrats on the <strong>Ξ 2.0</strong> sale — arthouse called it collector-fit HIGH
+              </div>
+              <div class="howdy-time">15 min ago</div>
+            </div>
+          </div>
+        </div>
+        <div class="soc-footer">
+          <span class="soc-footer-link">Join community ↗</span>
+          <span class="soc-pill">💬 Howdy</span>
+        </div>
       </a>
 
     </div>
@@ -1448,11 +1773,7 @@
       <a href="https://t.me/arthousebase_bot" target="_blank" rel="noopener noreferrer">Start Curation ↗</a>
     </nav>
     <p class="ft-copy">© 2026 arthouse · AI generative art curation agent · Verified on Base · @arthousebase · pixels. patterns. paradoxes.</p>
-    <div class="ft-badge">
-      <a href="https://orynth.dev/projects/arthousebot-3604" target="_blank" rel="noopener">
-        <img src="https://orynth.dev/api/badge/arthousebot-3604?theme=light&style=default" alt="Featured on Orynth" loading="lazy" />
-      </a>
-    </div>
+
   </footer>
 
   <script>
